@@ -1,0 +1,29 @@
+# More
+1. crypto heatmap
+2. crypto compare
+3. price prediction
+4. curency converter
+    1. curency to crypto
+    2. crypto to curency
+5. crypto calculator 
+    1. crypto tax
+    2. crypto return
+        1. invest by price
+        2. invest by date price
+    3. gst calculator
+    4. SIP calculator
+
+# Market
+1. sport 
+2. future
+3. all
+4. web3
+
+# Products
+1. App Promotion
+2. SIP Plan
+3. Services
+    1. HNI and Institutional Investor
+    2. Customer Care
+
+# Referal

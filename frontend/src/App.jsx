@@ -1,13 +1,11 @@
 import React from 'react'
+import TradingViewWidget from './components/graph/TradingViewWidget'
 
 function App() {
   return (
-    <div>
-      <>
-        <h1>Hello, World!</h1>
-        <h2>Welcome to React manthan uday</h2>
-      </>
-    </div>
+    <>
+    
+    </>
   )
 }
 
