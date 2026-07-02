@@ -1,11 +1,190 @@
-import React from 'react'
-
+import React, { useState } from "react";
+import { FaAngleDown } from "react-icons/fa";
+import {
+  FiSearch,
+  FiBell,
+} from "react-icons/fi";
+import { Link } from "react-router-dom";
 const Navbar = () => {
+  const [activeMenu, setActiveMenu] = useState(null);
+  const user = {
+    name: "Kishan Patel",
+    email: "patelkishan@gmail.com"
+  }
+  const [hoveredMenu, setHoveredMenu] = useState(null);
+  const navlinks = [
+    {
+      name: "More",
+      pages: [
+        {
+          name: "Crypto Heatmap",
+          link: "/more/cryptoheatmap"
+        },
+        {
+          name: "Crypto Compare",
+          link: "/more/cryptocompare"
+        },
+        {
+          name: "Price Prediction",
+          link: "/more/priceprediction"
+        },
+        {
+          name: "Curency Converter",
+          link: "/more/curencyconverter"
+        },
+        {
+          name: "Crypto Calculator",
+          link: "/more/cryptocalculator"
+        },
+      ]
+    },
+    {
+      name: "Market",
+      pages: [
+        {
+          name: "Sport",
+          link: ""
+        },
+        {
+          name: "Future",
+          link: ""
+        },
+        {
+          name: "All",
+          link: ""
+        },
+        {
+          name: "Web3",
+          link: ""
+        }
+      ]
+    },
+    {
+      name: "Products",
+      pages: [
+        {
+          name: "App Promotion",
+          link: ""
+        },
+        {
+          name: "SIP Plan",
+          link: ""
+        },
+        {
+          name: "Services",
+          link: ""
+        }
+      ]
+    }
+  ]
   return (
-    <div>
-      
-    </div>
-  )
-}
+    <nav className="w-full bg-[#120A25]/90 backdrop-blur-md border-b border-purple-700/20 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto h-20 flex items-center justify-between px-8">
 
-export default Navbar
+        {/* Logo */}
+        <div className="flex items-center gap-2 cursor-pointer">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-cyan-400 to-purple-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-purple-500/40">
+            T
+          </div>
+
+          <h1 className="text-3xl font-bold text-white">
+            Crypto Grow
+          </h1>
+        </div>
+
+        {/* Menu */}
+        <ul className="hidden lg:flex items-center gap-10 text-gray-300 font-medium">
+
+          {
+            navlinks.map((select, idx) => (
+              <div
+                key={idx}
+                className="relative"
+                onMouseEnter={() => {
+                  setActiveMenu(select.name);
+                  setHoveredMenu(select.name);
+                }}
+
+              >
+                <h3 className="flex items-center gap-2 cursor-pointer text-white hover:text-purple-400">
+                  {select.name}
+
+                  <FaAngleDown
+                    className={`transition-all duration-300 ${hoveredMenu === select.name
+                      ? "translate-y-1 text-purple-500"
+                      : "translate-y-0 rotate-0 text-white"
+                      }`}
+                  />
+                </h3>
+                {activeMenu === select.name && (
+                  <div onMouseLeave={() => {
+                    setActiveMenu(null);
+                    setHoveredMenu(null);
+                  }} className={`absolute top-10 left-0 bg-[#1A1332] border border-purple-500/30 rounded-xl shadow-xl z-50 ${activeMenu==="More"?"flex items-start justify-center w-100 p-3":" w-56 py-2"}`}>
+                    <div className={`flex flex-col justify-start items-start ${activeMenu==="More"?"w-[60%]":"w-full"}`}>
+                      {select.pages.map((page, index) => (
+                        <Link
+                          key={index}
+                          to={page.link}
+                          className="block px-4 py-3 text-gray-300 hover:bg-purple-600 hover:text-white w-full"
+                        >
+                          {page.name}
+                        </Link>
+                      ))}
+                    </div>
+                    {
+                      activeMenu==="More" && (
+                        <img src="MenuImage.png" className="h-100 w-[80%]" alt="" />
+                      )
+                    }
+                  </div>
+                )}
+              </div>
+            ))
+          }
+        </ul>
+
+        {/* Right Side */}
+        <div className="flex items-center gap-5">
+
+          {/* Search */}
+
+          <div className="hidden md:flex items-center bg-[#1A1332] rounded-full px-5 py-3 border border-purple-500/30 w-[320px]">
+
+            <FiSearch className="text-gray-400 text-xl" />
+
+            <input
+              type="text"
+              placeholder="Search threads..."
+              className="bg-transparent outline-none ml-3 w-full text-white placeholder-gray-500"
+            />
+          </div>
+
+          {/* Notification */}
+
+          <button className="w-12 h-12 rounded-full bg-[#1A1332] border border-purple-600/30 flex items-center justify-center hover:bg-purple-600 transition">
+
+            <FiBell className="text-white text-xl" />
+
+          </button>
+
+          {/* Profile */}
+
+          {
+            user ? <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-2xl cursor-pointer">
+              {user.name.charAt(0) + user.name.split(" ")[1].charAt(0)}
+            </div> : <img
+              src="https://i.pravatar.cc/100?img=12"
+              alt="profile"
+              className="w-12 h-12 rounded-full border-2 border-purple-500 object-cover cursor-pointer"
+            />
+          }
+
+        </div>
+
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
