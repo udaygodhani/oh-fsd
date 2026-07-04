@@ -1,17 +1,30 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 import {
   FiSearch,
   FiBell,
 } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../context/data/UserDataProvider";
+import api from "../api/api";
+import { toast } from "react-hot-toast";
 const Navbar = () => {
+  const navigate = useNavigate()
+  const {user, setUser} = useContext(UserContext)
   const [activeMenu, setActiveMenu] = useState(null);
-  const user = {
-    name: "Kishan Patel",
-    email: "patelkishan@gmail.com"
-  }
   const [hoveredMenu, setHoveredMenu] = useState(null);
+  const [openMenu, setOpenMenu] = useState(true)
+  const handleLogout = async () => {
+    try {
+      const response = await api.get("/api/auth/logout");
+      toast.success(response.data.message)
+      localStorage.removeItem("user")
+      setUser(null)
+      navigate("/login")
+    } catch (error) {
+      toast.error(error.message || "Something Went Wrong.")
+    }
+  }
   const navlinks = [
     {
       name: "More",
@@ -171,13 +184,13 @@ const Navbar = () => {
           {/* Profile */}
 
           {
-            user ? <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-2xl cursor-pointer">
+            user ? <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-2xl cursor-pointer relative">
               {user.name.charAt(0) + user.name.split(" ")[1].charAt(0)}
-            </div> : <img
-              src="https://i.pravatar.cc/100?img=12"
-              alt="profile"
-              className="w-12 h-12 rounded-full border-2 border-purple-500 object-cover cursor-pointer"
-            />
+              <div className={`flex absolute border border-white bg-white top-20 right-20 h-auto w-auto p-5 rounded-2xl flex-col ${openMenu?"":"hidden"}`}>
+                <Link to={'#'}>Profile</Link>
+                <button type="button" onClick={()=>handleLogout()}>Logout</button>
+              </div>
+            </div> : <Link to={'/login'} className="text-2xl text-white">Login</Link>
           }
 
         </div>
