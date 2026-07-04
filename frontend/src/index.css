@@ -1,1 +1,28 @@
 @import "tailwindcss";
+
+body {
+    background: #0B081E;
+    user-select: none;
+}
+
+/* Animations */
+.upper {
+    filter: blur(10px);
+}
+
+.lower {
+    filter: blur(10px);
+}
+
+.movingdiv{
+    animation: movingdiv 10s linear infinite;
+}
+
+@keyframes movingdiv {
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}

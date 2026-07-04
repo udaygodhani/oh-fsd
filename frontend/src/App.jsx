@@ -17,12 +17,17 @@ import Web3 from './pages/Market/Web3'
 import AppPromotion from './pages/Products/AppPromotion'
 import SipPlan from './pages/Products/SipPlan'
 import Services from './pages/Products/Services'
+import { Toaster } from 'react-hot-toast';
+import Auth from './pages/auth/Auth';
+import UserSecure from './secure/UserSecure';
 
 function App() {
   return (
     <>
+      <Toaster position="top-center"/>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/login' element={<UserSecure><Auth /></UserSecure>} />
         <Route path='/more' element={<MoreLayout />}>
           <Route path='cryptoheatmap' element={<CryptoHeatmap />}/>
           <Route path='cryptocompare' element={<CryptoCompare />}/>
