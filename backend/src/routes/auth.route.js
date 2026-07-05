@@ -1,5 +1,5 @@
 const express = require("express");
-const { loginUser, registerUser, logoutUser, getUser, verifyEmail } = require("../controllers/auth.controller");
+const { loginUser, registerUser, logoutUser, getUser, verifyEmail, resendOtp } = require("../controllers/auth.controller");
 const userAuthMiddleware = require("../middlewares/auth.middlewares");
 
 const authRouter = express.Router();
@@ -36,5 +36,12 @@ authRouter.get("/getuser", userAuthMiddleware, getUser);
  * @RequiredFields := email, otp
  */
 authRouter.post("/verifyemail", verifyEmail);
+
+/**
+ * @EndPoint := /api/auth/resendOtp
+ * @Method := POST
+ * @RequiredFields := email
+ */
+authRouter.post("/resendOtp", resendOtp);
 
 module.exports = authRouter;
