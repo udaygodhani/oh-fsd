@@ -118,7 +118,11 @@ function Auth() {
     };
     useEffect(() => {
         const formtype = localStorage.getItem("formtype");
-        setFormType(formtype)
+        if(formtype){
+            setFormType(formtype)
+        }else{
+            setFormType("signup")
+        }
     }, [])
     useEffect(() => {
         if (password.length > 0)
