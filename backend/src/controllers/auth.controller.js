@@ -31,8 +31,6 @@ const registerUser = async (req, res) => {
             as your verification code.</p>
         <p>thanks from, ${process.env.GMAIL_ID}</p>
     </div>`
-
-        const response = await sendEmail({ toemail: email, html: html, subject: "Verify Your Email." })
         user = await userModel.create({
             name: name,
             email: email,
@@ -40,7 +38,14 @@ const registerUser = async (req, res) => {
             otp: otp,
             otpExpired: Date.now() + 15 * 60 * 1000
         })
-        
+        const response = await sendEmail({ toemail: email, html: html, subject: "Verify Your Email." })
+
+        if (!response) {
+            return res.status(401).json({
+                success: false,
+                message: "Problem to send otp on your Email."
+            })
+        }
         return res.status(201).json({
             success: true,
             message: 'Verify Your Email.'
@@ -145,7 +150,7 @@ const getUser = async (req, res) => {
 const verifyEmail = async (req, res) => {
     try {
         const { otp, email } = req.body;
-        const user = await userModel.findOne({email});
+        const user = await userModel.findOne({ email });
         if (!otp) {
             return res.status(401).json({
                 success: false,
@@ -172,17 +177,10 @@ const verifyEmail = async (req, res) => {
         }
         user.otp = "";
         user.isVerified = true;
-
         await user.save();
-        console.log("",user)
         return res.status(200).json({
             success: true,
-            message: `Welcome, ${user.name}`,
-            user: {
-                name: user.name,
-                email: user.email,
-                isVerified: user.isVerified
-            }
+            message: 'Please do Login First.'
         })
     } catch (error) {
         return res.status(500).json({
@@ -192,10 +190,53 @@ const verifyEmail = async (req, res) => {
     }
 }
 
+const resendOtp = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await userModel.findOne({ email });
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: "Can't find your account."
+            })
+        }
+        const otp = Math.floor(100000 + Math.random() * 900000);
+        const html = `<div>
+        <h1 style="font-family: sans-serif; color: rgb(100, 34, 161); font-size: x-large; text-align: center;">Welcome,
+            ${user.name}</h1>
+        <h3 style="font-family: sans-serif;">Verify Your Email:</h3>
+        <p style="font-family: sans-serif;">Use: <span
+                style="padding: 5px 15px; border: 3px solid blueviolet; background-color: rgb(100, 34, 161); color: rgb(218, 179, 255); border-radius: 10px;">${otp}</span>
+            as your verification code.</p>
+        <p>thanks from, ${process.env.GMAIL_ID}</p>
+    </div>`
+        user.otp = otp;
+        user.otpExpired = Date.now() + 15 * 60 * 1000;
+        user.isVerified = false;
+        await user.save();
+        const response = await sendEmail({ toemail: user.email, html, subject: "Verify your Email." })
+        if (!response) {
+            return res.status(401).json({
+                success: false,
+                message: "Problem to send otp on your Email."
+            })
+        }
+        return res.status(200).json({
+            success: true,
+            message: "Otp Send to Your Email."
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message || "Internal Server Error."
+        })
+    }
+}
 module.exports = {
     loginUser,
     registerUser,
     logoutUser,
     getUser,
-    verifyEmail
+    verifyEmail,
+    resendOtp
 }

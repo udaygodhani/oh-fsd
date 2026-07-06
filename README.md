@@ -1,4 +1,4 @@
-<h1 style="text-align: center;">🪙 Crypto Groww 🪙</h1>
+<h1 style="width: 100%; text-align: center;">🪙 Crypto Groww 🪙</h1>
 
 ## Tools Used :-
 1. Git
