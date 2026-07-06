@@ -98,9 +98,7 @@ const Navbar = () => {
 
         {/* Logo */}
         <div onClick={()=>navigate("/")} className="flex items-center gap-2 cursor-pointer">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-cyan-400 to-purple-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-purple-500/40">
-            T
-          </div>
+          <img src="/project-logo.png" className="w-13 h-13" alt=""/>
 
           <h1 className="text-3xl font-bold text-white">
             Crypto Grow
