@@ -25,30 +25,31 @@ import Navbar from './components/Navbar';
 function App() {
   return (
     <>
-      <Toaster position="top-center"/>
+      <Toaster position="top-center" />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Auth />} />
-        <Route path='/more' element={<MoreLayout />}>
-          <Route path='cryptoheatmap' element={<CryptoHeatmap />}/>
-          <Route path='cryptocompare' element={<CryptoCompare />}/>
-          <Route path='priceprediction' element={<PricePrediction />}/>
-          <Route path='curencyconverter' element={<CryptoConverter />}/>
-          <Route path='cryptocalculator' element={<CryptoCalculator />}/>
-        </Route>
         <Route path='/market' element={<MarketLayout />}>
-          <Route path='sport' element={<Sport />}/>
-          <Route path='future' element={<Future />}/>
-          <Route path='all' element={<All />}/>
-          <Route path='web3' element={<Web3 />}/>
+          <Route path='sport' element={<Sport />} />
+          <Route path='future' element={<Future />} />
+          <Route path='all' element={<All />} />
+          <Route path='web3' element={<Web3 />} />
         </Route>
         <Route path='/products' element={<ProductLayout />}>
-          <Route path='apppromotion' element={<AppPromotion />}/>
-          <Route path='sipplan' element={<SipPlan />}/>
-          <Route path='services' element={<Services />}/>
+          <Route path='apppromotion' element={<AppPromotion />} />
+          <Route path='sipplan' element={<SipPlan />} />
+          <Route path='services' element={<Services />} />
         </Route>
-        <Route path="*" element={<PageNotFound />}/>
+        <Route path="*" element={<PageNotFound />} />
+        <Route path='/more' element={<MoreLayout />}>
+          <Route path='cryptoheatmap' element={<CryptoHeatmap />} />
+          <Route path='cryptocompare' element={<CryptoCompare />} />
+          <Route path='priceprediction' element={<PricePrediction />} />
+          <Route path='curencyconverter' element={<CryptoConverter />} />
+          <Route path='cryptocalculator' element={<CryptoCalculator />} />
+        </Route>
       </Routes>
+
     </>
   )
 }

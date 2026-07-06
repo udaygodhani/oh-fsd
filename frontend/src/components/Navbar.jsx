@@ -29,31 +29,6 @@ const Navbar = () => {
   }
   const navlinks = [
     {
-      name: "More",
-      pages: [
-        {
-          name: "Crypto Heatmap",
-          link: "/more/cryptoheatmap"
-        },
-        {
-          name: "Crypto Compare",
-          link: "/more/cryptocompare"
-        },
-        {
-          name: "Price Prediction",
-          link: "/more/priceprediction"
-        },
-        {
-          name: "Curency Converter",
-          link: "/more/curencyconverter"
-        },
-        {
-          name: "Crypto Calculator",
-          link: "/more/cryptocalculator"
-        },
-      ]
-    },
-    {
       name: "Market",
       pages: [
         {
@@ -89,6 +64,31 @@ const Navbar = () => {
           name: "Services",
           link: "/products/services"
         }
+      ]
+    },
+    {
+      name: "More",
+      pages: [
+        {
+          name: "Crypto Heatmap",
+          link: "/more/cryptoheatmap"
+        },
+        {
+          name: "Crypto Compare",
+          link: "/more/cryptocompare"
+        },
+        {
+          name: "Price Prediction",
+          link: "/more/priceprediction"
+        },
+        {
+          name: "Curency Converter",
+          link: "/more/curencyconverter"
+        },
+        {
+          name: "Crypto Calculator",
+          link: "/more/cryptocalculator"
+        },
       ]
     }
   ]
