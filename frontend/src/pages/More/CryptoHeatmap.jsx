@@ -35,7 +35,7 @@ const CryptoHeatmap = () => {
     fetchLiveData();
 
     // Refresh every 30 seconds
-    const interval = setInterval(fetchLiveData, 30000);
+    const interval = setInterval(fetchLiveData, 12000);
 
     return () => clearInterval(interval);
   }, []);
@@ -65,7 +65,7 @@ const CryptoHeatmap = () => {
     <div>
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-4xl font-bold">Crypto Heatmap</h1>
-        <p className="text-green-400 text-sm">● Live • Updates every 30s</p>
+        <p className="text-green-400 text-sm">● Live • Updates every 12s</p>
       </div>
 
       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4">
