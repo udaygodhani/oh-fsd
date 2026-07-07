@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { FiGlobe, FiZap, FiAward, FiUsers, FiExternalLink } from 'react-icons/fi';
+import { FiGlobe, FiZap, FiAward, FiUsers, FiExternalLink, FiStar } from 'react-icons/fi';
+import { FaWallet } from "react-icons/fa";
 
 const Web3 = () => {
   const [activeTab, setActiveTab] = useState('explore');
@@ -59,11 +60,10 @@ const Web3 = () => {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-8 py-3 rounded-2xl font-medium transition-all capitalize ${
-                activeTab === tab 
-                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/30' 
+              className={`px-8 py-3 rounded-2xl font-medium transition-all capitalize ${activeTab === tab
+                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/30'
                   : 'hover:bg-[#1F1A38] text-gray-400'
-              }`}
+                }`}
             >
               {tab}
             </button>
@@ -87,7 +87,7 @@ const Web3 = () => {
                     <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${project.color} flex items-center justify-center mb-5 text-2xl font-bold`}>
                       {project.symbol.slice(0, 2)}
                     </div>
-                    
+
                     <div className="flex justify-between items-start">
                       <div>
                         <h3 className="text-2xl font-bold">{project.name}</h3>
@@ -120,14 +120,14 @@ const Web3 = () => {
             {/* Wallet Connect */}
             <div className="bg-gradient-to-br from-[#1A1633] to-[#252040] rounded-3xl p-8 border border-purple-500/30">
               <div className="flex items-center gap-4 mb-6">
-                <FiWallet className="text-4xl text-purple-400" />
+                <FaWallet className="text-4xl text-purple-400" />
                 <div>
                   <h3 className="text-2xl font-bold">Connect Wallet</h3>
                   <p className="text-sm text-gray-400">Access your Web3 assets</p>
                 </div>
               </div>
               <button className="w-full bg-white text-black font-semibold py-4 rounded-2xl hover:bg-gray-200 transition-colors flex items-center justify-center gap-3">
-                <FiWallet /> Connect MetaMask / WalletConnect
+                <FaWallet /> Connect MetaMask / WalletConnect
               </button>
             </div>
 
