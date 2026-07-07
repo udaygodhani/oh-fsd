@@ -104,23 +104,23 @@ function Auth() {
             setShowEmailInput(false);
         } catch (error) {
             toast.dismiss(loadingToast)
-        
+
             toast.error(
                 error.response?.data?.message || "Something went wrong!",
                 {
                     id: loadingToast,
                 }
             );
-        }finally{
+        } finally {
             toast.dismiss(loadingToast)
-        
+
         }
     };
     useEffect(() => {
         const formtype = localStorage.getItem("formtype");
-        if(formtype){
+        if (formtype) {
             setFormType(formtype)
-        }else{
+        } else {
             setFormType("signup")
         }
     }, [])
@@ -128,42 +128,44 @@ function Auth() {
         if (password.length > 0)
             setEyeOpen(true)
     }, [password])
-    useEffect(()=>{
-        if(user){
+    useEffect(() => {
+        if (user) {
             navigate("/")
-        }else{
+        } else {
             return
         }
     })
     return (
-        <div className="min-h-screen w-full flex justify-center items-center relative">
-            <div className="w-[90%] relative overflow-hidden flex justify-center items-center rounded-2xl sm:w-[60vh]">{/* Border Animation */}
-                <form onSubmit={formType === "login" ? handleLogin : formType === "signup" ? handleSignup : handleOtpVerify} className="relative flex flex-col items-center justify-start gap-3 p-1 rounded-2xl w-full h-full">
-                    <div className="movingdiv absolute top-[50%] left-[50%] -translate-[50%] w-100 h-200 -z-1 flex flex-col justify-center items-center ">
-                        <div className="w-full h-1/2 upper bg-[#892467]"></div>
-                        <div className="w-full h-1/2 lower bg-[#117193]"></div>
-                    </div>
-                    <div className="w-full h-auto flex flex-col items-center justify-start relative bg-[#0B081E] rounded-2xl text-white !z-5 p-3 ">
-                        <h1 className="text-2xl font-semibold my-3">{formType === "login" ? "Login" : formType === "signup" ? "Sign Up" : "Verify Email"}</h1>
-                        {formType === "signup" && (
-                            <input
-                                type="text"
-                                placeholder="Enter Username"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                className="border-b border-[#892467] outline-4 outline-transparent focus:outline-[#892467] focus:border-transparent transition-all 
-    -b             focus:rounded-lg                duration-200 w-[90%] p-[8px_15px] mt-3 placeholder:text-[#117193] text-white text-xl"
-                                required
-                            />
-                        )}
 
-                        {(formType === "signup" ||
-                            formType === "login" ||
-                            (formType === "otpverify" && showEmailInput)) && (
+        <div className='min-w-screen min-h-screen flex justify-center items-center bg-[url("/login_backg.png")]'>
+            <div className="min-h-screen w-full flex justify-center items-center relative z-15">
+                <div className="w-[90%] relative overflow-hidden flex justify-center items-center rounded-2xl sm:w-[60vh]">{/* Border Animation */}
+                    <form onSubmit={formType === "login" ? handleLogin : formType === "signup" ? handleSignup : handleOtpVerify} className="relative flex flex-col items-center justify-start gap-3 p-1 rounded-2xl w-full h-full">
+                        <div className="movingdiv absolute top-[50%] left-[50%] -translate-[50%] w-100 h-200 -z-1 flex flex-col justify-center items-center ">
+                            <div className="w-full h-1/2 upper bg-[#892467]"></div>
+                            <div className="w-full h-1/2 lower bg-[#117193]"></div>
+                        </div>
+                        <div className="w-full h-auto flex flex-col items-center justify-start relative bg-[#0B081E] rounded-2xl text-white !z-5 p-3 ">
+                            <h1 className="text-2xl font-semibold my-3">{formType === "login" ? "Login" : formType === "signup" ? "Sign Up" : "Verify Email"}</h1>
+                            {formType === "signup" && (
                                 <input
-                                    type="email"
-                                    placeholder="Enter Email"
-                                    className="border-b border-[#892467]
+                                    type="text"
+                                    placeholder="Enter Username"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className="border-b border-[#892467] outline-4 outline-transparent focus:outline-[#892467] focus:border-transparent transition-all 
+    -b             focus:rounded-lg                duration-200 w-[90%] p-[8px_15px] mt-3 placeholder:text-[#117193] text-white text-xl"
+                                    required
+                                />
+                            )}
+
+                            {(formType === "signup" ||
+                                formType === "login" ||
+                                (formType === "otpverify" && showEmailInput)) && (
+                                    <input
+                                        type="email"
+                                        placeholder="Enter Email"
+                                        className="border-b border-[#892467]
                                             outline-4
                                             outline-transparent
                                             focus:outline-[#892467]
@@ -177,70 +179,71 @@ function Auth() {
                                             placeholder:text-[#117193]
                                             text-white
                                             text-xl"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                />
-                            )}
-                        {(formType === "login" || formType === "signup") && (
-                            <div className="flex items-center relative w-[90%]">
-                                <input
-                                    placeholder="Enter Password"
-                                    type={`${showPassword ? "text" : "password"}`}
-                                    className="border-b border-[#892467] outline-4 outline-transparent focus:outline-[#892467] focus:border-b-transparent focus:rounded-lg transition-all duration-200 w-[100%] p-[8px_15px] mt-3 placeholder:text-[#117193] text-white text-xl"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    required
-                                />
-                                {eyeOpen &&
-                                    <h1 onClick={() => setShowPassword(!showPassword)} className="absolute right-6 top-1/2 -translate-y-2 text-2xl">
-                                        {showPassword ? <FiEyeOff /> : <FiEye />}
-                                    </h1>
-                                }
-                            </div>
-                        )}
-
-                        {formType === "otpverify" && (
-                            <input
-                                type="text"
-                                placeholder="Enter Otp"
-                                className="border-b border-[#892467] outline-4 outline-transparent focus:outline-[#892467] focus:border-b-transparent focus:rounded-lg transition-all duration-200 w-[90%] p-[8px_15px] mt-3 placeholder:text-[#117193] text-white text-xl"
-                                value={otp}
-                                onChange={(e) => setOtp(e.target.value)}
-                                required
-                            />
-                        )}
-                        <button disabled={loading} className="w-[90%] my-3 rounded-lg text-xl py-1 bg-[#117193] disabled:bg-[#0c516a] relative">{formType === "login" ? loading ? <div className="w-full h-full flex items-center justify-center gap-3 py-1"><div className="w-7 h-7 border-3 border-[#cacaca] border-t-transparent rounded-full animate-spin" /><span className="text-[#cacaca]">Submiting....</span></div> : "Login" : formType === "signup" ? loading ? <div className="w-full h-full flex items-center justify-center gap-3 py-1"><div className="w-7 h-7 border-3 border-[#cacaca] border-t-transparent rounded-full animate-spin" /><span className="text-[#cacaca]">Submiting....</span></div> : "Submit" : loading ? <div className="w-full h-full flex items-center justify-center gap-3 py-1"><div className="w-7 h-7 border-3 border-[#cacaca] border-t-transparent rounded-full animate-spin" /><span className="text-[#cacaca]">Submiting....</span></div> : "Verify"}</button>
-                        {formType === "login" ? <p>Don't have account? <span onClick={() => setFormType("signup")} className="text-[#892467] font-semibold cursor-pointer">Click</span></p> : formType === "signup" ? <p>Already have account? <span onClick={() => setFormType("login")} className="text-[#892467] font-semibold cursor-pointer">Click</span></p> : <div>
-                            {finishCountDown ? (
-                                <Countdown
-                                    onComplete={() => setFinishCountDown(false)}
-                                    date={Date.now() + 20000}
-                                />
-                            ) : (
-                                <div className="flex gap-2">
-                                    <span>Didn't receive OTP?</span>
-
-                                    <span
-                                        onClick={() => setShowEmailInput(true)}
-                                        className="text-[#892467] font-semibold cursor-pointer"
-                                    >
-                                        Change Email
-                                    </span>
-
-                                    <span>|</span>
-
-                                    <span
-                                        onClick={handleResendOtp}
-                                        className="text-[#117193] font-semibold cursor-pointer"
-                                    >
-                                        Resend OTP
-                                    </span>
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                    />
+                                )}
+                            {(formType === "login" || formType === "signup") && (
+                                <div className="flex items-center relative w-[90%]">
+                                    <input
+                                        placeholder="Enter Password"
+                                        type={`${showPassword ? "text" : "password"}`}
+                                        className="border-b border-[#892467] outline-4 outline-transparent focus:outline-[#892467] focus:border-b-transparent focus:rounded-lg transition-all duration-200 w-[100%] p-[8px_15px] mt-3 placeholder:text-[#117193] text-white text-xl"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                    />
+                                    {eyeOpen &&
+                                        <h1 onClick={() => setShowPassword(!showPassword)} className="absolute right-6 top-1/2 -translate-y-2 text-2xl">
+                                            {showPassword ? <FiEyeOff /> : <FiEye />}
+                                        </h1>
+                                    }
                                 </div>
                             )}
-                        </div>}
-                    </div>
-                </form>
+
+                            {formType === "otpverify" && (
+                                <input
+                                    type="text"
+                                    placeholder="Enter Otp"
+                                    className="border-b border-[#892467] outline-4 outline-transparent focus:outline-[#892467] focus:border-b-transparent focus:rounded-lg transition-all duration-200 w-[90%] p-[8px_15px] mt-3 placeholder:text-[#117193] text-white text-xl"
+                                    value={otp}
+                                    onChange={(e) => setOtp(e.target.value)}
+                                    required
+                                />
+                            )}
+                            <button disabled={loading} className="w-[90%] my-3 rounded-lg text-xl py-1 bg-[#117193] disabled:bg-[#0c516a] relative">{formType === "login" ? loading ? <div className="w-full h-full flex items-center justify-center gap-3 py-1"><div className="w-7 h-7 border-3 border-[#cacaca] border-t-transparent rounded-full animate-spin" /><span className="text-[#cacaca]">Submiting....</span></div> : "Login" : formType === "signup" ? loading ? <div className="w-full h-full flex items-center justify-center gap-3 py-1"><div className="w-7 h-7 border-3 border-[#cacaca] border-t-transparent rounded-full animate-spin" /><span className="text-[#cacaca]">Submiting....</span></div> : "Submit" : loading ? <div className="w-full h-full flex items-center justify-center gap-3 py-1"><div className="w-7 h-7 border-3 border-[#cacaca] border-t-transparent rounded-full animate-spin" /><span className="text-[#cacaca]">Submiting....</span></div> : "Verify"}</button>
+                            {formType === "login" ? <p>Don't have account? <span onClick={() => setFormType("signup")} className="text-[#892467] font-semibold cursor-pointer">Click</span></p> : formType === "signup" ? <p>Already have account? <span onClick={() => setFormType("login")} className="text-[#892467] font-semibold cursor-pointer">Click</span></p> : <div>
+                                {finishCountDown ? (
+                                    <Countdown
+                                        onComplete={() => setFinishCountDown(false)}
+                                        date={Date.now() + 20000}
+                                    />
+                                ) : (
+                                    <div className="flex gap-2">
+                                        <span>Didn't receive OTP?</span>
+
+                                        <span
+                                            onClick={() => setShowEmailInput(true)}
+                                            className="text-[#892467] font-semibold cursor-pointer"
+                                        >
+                                            Change Email
+                                        </span>
+
+                                        <span>|</span>
+
+                                        <span
+                                            onClick={handleResendOtp}
+                                            className="text-[#117193] font-semibold cursor-pointer"
+                                        >
+                                            Resend OTP
+                                        </span>
+                                    </div>
+                                )}
+                            </div>}
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     )
