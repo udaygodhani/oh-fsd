@@ -3,8 +3,7 @@ import React, { useEffect, useRef } from 'react';
 
 const TradingViewWidget = ({ 
   symbol = "BTCUSD", 
-  height = "650px",
-  interval = "D"
+  height = "680px" 
 }) => {
   const containerRef = useRef(null);
 
@@ -12,7 +11,6 @@ const TradingViewWidget = ({
     const container = containerRef.current;
     if (!container) return;
 
-    // Clear previous content
     container.innerHTML = '';
 
     const script = document.createElement('script');
@@ -20,9 +18,9 @@ const TradingViewWidget = ({
     script.type = "text/javascript";
     script.async = true;
 
-    script.innerHTML = JSON.stringify({
+    const config = {
       "symbol": symbol,
-      "interval": interval,
+      "interval": "D",
       "timezone": "Etc/UTC",
       "theme": "dark",
       "style": "1",
@@ -30,27 +28,28 @@ const TradingViewWidget = ({
       "toolbar_bg": "#0A0618",
       "enable_publishing": false,
       "allow_symbol_change": true,
-      "container_id": "tradingview_widget",
       "width": "100%",
       "height": "100%",
       "hide_top_toolbar": false,
       "hide_legend": false,
       "save_image": false,
-      "backgroundColor": "#0A0618"
-    });
+      "backgroundColor": "#0A0618",
+      "gridColor": "#1A1332"
+    };
 
+    script.innerHTML = JSON.stringify(config);
     container.appendChild(script);
 
     return () => {
-      if (container) container.innerHTML = '';
+      container.innerHTML = '';
     };
-  }, [symbol, interval]);
+  }, [symbol]);
 
   return (
-    <div className="w-full rounded-2xl overflow-hidden border border-purple-500/20 bg-[#0A0618]">
+    <div className="w-full bg-[#0A0618] rounded-3xl overflow-hidden border border-purple-500/20 shadow-2xl">
       <div 
-        ref={containerRef} 
-        className="tradingview-widget-container"
+        ref={containerRef}
+        className="tradingview-widget-container w-full"
         style={{ height }}
       />
     </div>
