@@ -7,7 +7,9 @@ body {
     background: #0B081E;
     user-select: none;
 }
-
+::-webkit-scrollbar{
+    display: none;
+}
 /* Animations */
 .upper {
     filter: blur(10px);
