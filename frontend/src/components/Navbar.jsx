@@ -146,7 +146,7 @@ const Navbar = () => {
                     </div>
                     {
                       activeMenu === "More" && (
-                        <img src="MenuImage.png" className="h-100 w-[80%]" alt="" />
+                        <img src="/MenuImage.png" className="h-100 w-[80%]" alt="" />
                       )
                     }
                   </div>

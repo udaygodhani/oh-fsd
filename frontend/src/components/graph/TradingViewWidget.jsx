@@ -1,50 +1,60 @@
-import React, { useEffect, useRef, memo } from 'react';
+// src/components/graph/TradingViewWidget.jsx
+import React, { useEffect, useRef } from 'react';
 
-function TradingViewWidget() {
-  const container = useRef();
+const TradingViewWidget = ({ 
+  symbol = "BTCUSD", 
+  height = "650px",
+  interval = "D"
+}) => {
+  const containerRef = useRef(null);
 
-  useEffect(    
-    () => {
-      const script = document.createElement("script");
-      script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
-      script.type = "text/javascript";
-      script.async = true;
-      script.innerHTML = `
-        {
-          "allow_symbol_change": true,
-          "calendar": false,
-          "details": false,
-          "hide_side_toolbar": true,
-          "hide_top_toolbar": false,
-          "hide_legend": false,
-          "hide_volume": false,
-          "hotlist": false,
-          "interval": "D",
-          "locale": "en",
-          "save_image": true,
-          "style": "1",
-          "symbol": "NASDAQ:AAPL",
-          "theme": "dark",
-          "timezone": "Etc/UTC",
-          "backgroundColor": "#0F0F0F",
-          "gridColor": "rgba(242, 242, 242, 0.06)",
-          "watchlist": [],
-          "withdateranges": false,
-          "compareSymbols": [],
-          "studies": [],
-          "autosize": true
-        }`;
-      container.current.appendChild(script);
-    },
-    []
-  );
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // Clear previous content
+    container.innerHTML = '';
+
+    const script = document.createElement('script');
+    script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
+    script.type = "text/javascript";
+    script.async = true;
+
+    script.innerHTML = JSON.stringify({
+      "symbol": symbol,
+      "interval": interval,
+      "timezone": "Etc/UTC",
+      "theme": "dark",
+      "style": "1",
+      "locale": "en",
+      "toolbar_bg": "#0A0618",
+      "enable_publishing": false,
+      "allow_symbol_change": true,
+      "container_id": "tradingview_widget",
+      "width": "100%",
+      "height": "100%",
+      "hide_top_toolbar": false,
+      "hide_legend": false,
+      "save_image": false,
+      "backgroundColor": "#0A0618"
+    });
+
+    container.appendChild(script);
+
+    return () => {
+      if (container) container.innerHTML = '';
+    };
+  }, [symbol, interval]);
 
   return (
-    <div className="tradingview-widget-container" ref={container} style={{ height: "100%", width: "100%" }}>
-      <div className="tradingview-widget-container__widget" style={{ height: "calc(100% - 32px)", width: "100%" }}></div>
-      <div className="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/NASDAQ-AAPL/" rel="noopener nofollow" target="_blank"><span className="blue-text">AAPL stock chart</span></a><span className="trademark"> by TradingView</span></div>
+    <div className="w-full rounded-2xl overflow-hidden border border-purple-500/20 bg-[#0A0618]">
+      <div 
+        ref={containerRef} 
+        className="tradingview-widget-container"
+        style={{ height }}
+      />
     </div>
   );
-}
+};
 
-export default memo(TradingViewWidget);
+export default TradingViewWidget;

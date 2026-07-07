@@ -26,13 +26,8 @@ const Home = () => {
           {/* Left Side */}
           <div className="lg:col-span-2 space-y-6">
 
-<<<<<<< HEAD
-            <img src="/phone2.jpg.png" alt="" className='flex bottom' />
-            <img src="/phone.jpg" alt="" className='flex'/>
-=======
             <img src="/phone.jpg" alt="" className='flex'/>
             <img src="/phone2.jpg" alt="" className='flex bottom' />
->>>>>>> 09d19d6a0c520e2e31e526da80032d7aae11a4aa
 
           </div>
 
