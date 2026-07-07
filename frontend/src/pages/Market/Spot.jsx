@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import TradingViewWidget from '../../components/graph/TradingViewWidget';
 import { FiSearch, FiStar, FiTrendingUp, FiArrowUp, FiArrowDown } from 'react-icons/fi';
+import axios from 'axios';
 
 const Spot = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCoin, setSelectedCoin] = useState('BTCUSDT');
-
-  // Mock popular coins (you can replace with real API later)
-  const coins = [
+  // 1. Define the mock data outside or before state initialization
+  const initialMockCoins = [
     { symbol: 'BTCUSDT', name: 'Bitcoin', price: '68,245.32', change: '+2.45', volume: '1.2B' },
     { symbol: 'ETHUSDT', name: 'Ethereum', price: '2,456.78', change: '-1.23', volume: '892M' },
     { symbol: 'SOLUSDT', name: 'Solana', price: '148.92', change: '+5.67', volume: '456M' },
@@ -15,7 +13,46 @@ const Spot = () => {
     { symbol: 'XRPUSDT', name: 'Ripple', price: '0.528', change: '-3.21', volume: '678M' },
   ];
 
-  const filteredCoins = coins.filter(coin =>
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCoin, setSelectedCoin] = useState('BTCUSDT');
+  
+  // 2. Set the initial state to the mock coins so they show up immediately
+  const [allCryptoCoins, setallCryptoCoins] = useState(initialMockCoins);
+
+  useEffect(() => {
+    const fetchCoins = async () => {
+      try {
+        const response = await axios.get(
+          'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1'
+        );
+        
+        // 3. Format the CoinGecko API data to match your mock data structure
+        const formattedApiData = response.data.map(apiCoin => ({
+          // Append USDT to match TradingView symbols
+          symbol: `${apiCoin.symbol.toUpperCase()}USDT`, 
+          name: apiCoin.name,
+          // Format price with commas
+          price: apiCoin.current_price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 }),
+          // Ensure change has a '+' or '-' sign
+          change: apiCoin.price_change_percentage_24h > 0 
+            ? `+${apiCoin.price_change_percentage_24h.toFixed(2)}` 
+            : apiCoin.price_change_percentage_24h.toFixed(2),
+          // Fallback volume
+          volume: apiCoin.total_volume.toLocaleString(),
+          image: apiCoin.image
+        }));
+
+        // Replace the mock data with the live API data
+        setallCryptoCoins(formattedApiData);
+      } catch (err) {
+        console.error("Failed to fetch live coin data:", err);
+      }
+    };
+
+    fetchCoins();
+  }, []);
+
+  const filteredCoins = allCryptoCoins.filter(coin =>
     coin.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     coin.symbol.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -24,15 +61,15 @@ const Spot = () => {
     <div className="min-h-screen bg-[#0B081E] text-white p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <div>
             <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
               Spot Market
             </h1>
             <p className="text-gray-400 mt-2">Trade cryptocurrencies instantly</p>
           </div>
-          
-          <div className="relative w-96">
+
+          <div className="relative w-full md:w-96">
             <FiSearch className="absolute left-4 top-3.5 text-gray-400" />
             <input
               type="text"
@@ -54,7 +91,7 @@ const Spot = () => {
               <span className="text-sm text-gray-400">24h Volume</span>
             </div>
 
-            <div className="space-y-3 max-h-[600px] overflow-y-auto custom-scrollbar">
+            <div className="space-y-3 py-6 px-3 max-h-[600px] overflow-y-auto custom-scrollbar">
               {filteredCoins.map((coin) => (
                 <div
                   key={coin.symbol}
@@ -62,9 +99,15 @@ const Spot = () => {
                   className={`flex items-center justify-between p-4 rounded-xl cursor-pointer transition-all hover:bg-[#252040] ${selectedCoin === coin.symbol ? 'bg-[#2A2450] ring-2 ring-purple-500' : 'bg-[#1F1A38]'}`}
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center font-bold">
-                      {coin.symbol.slice(0, 3)}
-                    </div>
+                    {/* Added support for the CoinGecko image if it exists, otherwise fallback to initials */}
+                    {coin.image ? (
+                      <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full" />
+                    ) : (
+                      <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center font-bold">
+                        {coin.symbol.slice(0, 3)}
+                      </div>
+                    )}
+                    
                     <div>
                       <p className="font-semibold">{coin.name}</p>
                       <p className="text-sm text-gray-400">{coin.symbol}</p>
@@ -73,8 +116,9 @@ const Spot = () => {
 
                   <div className="text-right">
                     <p className="font-mono font-bold">${coin.price}</p>
-                    <p className={`text-sm flex items-center justify-end gap-1 ${coin.change.startsWith('+') ? 'text-green-500' : 'text-red-500'}`}>
-                      {coin.change.startsWith('+') ? <FiArrowUp /> : <FiArrowDown />}
+                    {/* 4. Fixed the bug here: changed allCryptoCoins.change to coin.change */}
+                    <p className={`text-sm flex items-center justify-end gap-1 ${String(coin.change).startsWith('+') ? 'text-green-500' : 'text-red-500'}`}>
+                      {String(coin.change).startsWith('+') ? <FiArrowUp /> : <FiArrowDown />}
                       {coin.change}%
                     </p>
                   </div>
@@ -84,7 +128,7 @@ const Spot = () => {
           </div>
 
           {/* Chart Section */}
-          <div className="lg:col-span-7 bg-[#1A1633] rounded-2xl p-6 border border-gray-800">
+          <div className="lg:col-span-7 bg-[#1A1633] rounded-2xl p-6 border border-gray-800 relative flex flex-col min-w-0">
             <div className="flex justify-between items-center mb-6">
               <div className="flex items-center gap-4">
                 <h2 className="text-2xl font-bold">{selectedCoin}</h2>
@@ -96,15 +140,18 @@ const Spot = () => {
             </div>
 
             {/* TradingView Chart */}
-            <div className="h-[500px] bg-[#0F0B24] rounded-xl overflow-hidden mb-6">
+            <div className="flex-1 min-h-[400px] bg-[#0F0B24] rounded-xl overflow-hidden mb-6">
               <TradingViewWidget symbol={selectedCoin} />
             </div>
 
             {/* Quick Trade Panel */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 mt-auto">
               <div className="bg-[#252040] p-5 rounded-xl">
                 <p className="text-sm text-gray-400 mb-2">Buy Price</p>
-                <p className="text-3xl font-mono font-bold text-green-400">68,245.32</p>
+                {/* Dynamically showing selected coin price */}
+                <p className="text-3xl font-mono font-bold text-green-400">
+                  {allCryptoCoins.find(c => c.symbol === selectedCoin)?.price || '0.00'}
+                </p>
                 <button className="mt-4 w-full bg-green-600 hover:bg-green-700 py-3 rounded-xl font-semibold transition-colors">
                   BUY
                 </button>
@@ -112,7 +159,10 @@ const Spot = () => {
 
               <div className="bg-[#252040] p-5 rounded-xl">
                 <p className="text-sm text-gray-400 mb-2">Sell Price</p>
-                <p className="text-3xl font-mono font-bold text-red-400">68,210.45</p>
+                {/* Dynamically showing selected coin price */}
+                <p className="text-3xl font-mono font-bold text-red-400">
+                  {allCryptoCoins.find(c => c.symbol === selectedCoin)?.price || '0.00'}
+                </p>
                 <button className="mt-4 w-full bg-red-600 hover:bg-red-700 py-3 rounded-xl font-semibold transition-colors">
                   SELL
                 </button>

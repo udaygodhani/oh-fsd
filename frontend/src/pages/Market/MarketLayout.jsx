@@ -1,7 +1,6 @@
 import React from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
-import Sidebar from '../../components/Sidebar'; // Assuming you have this
 import { FiBarChart2, FiClock, FiGlobe, FiTrendingUp } from 'react-icons/fi';
 
 const MarketLayout = () => {
@@ -9,9 +8,12 @@ const MarketLayout = () => {
     <div className="min-h-screen bg-[#0B081E] text-white">
       <Navbar />
 
-      <div className="flex">
+      {/* Removed 'h-screen' here to allow the main content to scroll naturally with the page */}
+      <div className="flex mt-15">
+        
         {/* Market Sidebar Navigation */}
-        <div className="w-64 bg-[#1A1633] border-r border-gray-800 min-h-[calc(100vh-73px)] p-6 hidden lg:block">
+        {/* Kept 'fixed' but added 'overflow-y-auto' so the sidebar itself can scroll if its content ever gets too tall */}
+        <div className="w-64 bg-[#1A1633] border-r fixed border-gray-800 h-full p-6 hidden lg:block overflow-y-auto pb-24">
           <div className="mb-8">
             <h2 className="text-xl font-bold text-purple-400 mb-6 flex items-center gap-2">
               <FiBarChart2 /> Markets
@@ -22,9 +24,10 @@ const MarketLayout = () => {
             <NavLink
               to="/market/spot"
               className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${isActive
-                  ? 'bg-purple-600 text-white'
-                  : 'hover:bg-[#252040] text-gray-300'
+                `flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
+                  isActive
+                    ? 'bg-purple-600 text-white'
+                    : 'hover:bg-[#252040] text-gray-300'
                 }`
               }
             >
@@ -34,9 +37,10 @@ const MarketLayout = () => {
             <NavLink
               to="/market/future"
               className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${isActive
-                  ? 'bg-purple-600 text-white'
-                  : 'hover:bg-[#252040] text-gray-300'
+                `flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
+                  isActive
+                    ? 'bg-purple-600 text-white'
+                    : 'hover:bg-[#252040] text-gray-300'
                 }`
               }
             >
@@ -46,9 +50,10 @@ const MarketLayout = () => {
             <NavLink
               to="/market/all"
               className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${isActive
-                  ? 'bg-purple-600 text-white'
-                  : 'hover:bg-[#252040] text-gray-300'
+                `flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
+                  isActive
+                    ? 'bg-purple-600 text-white'
+                    : 'hover:bg-[#252040] text-gray-300'
                 }`
               }
             >
@@ -58,9 +63,10 @@ const MarketLayout = () => {
             <NavLink
               to="/market/web3"
               className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${isActive
-                  ? 'bg-purple-600 text-white'
-                  : 'hover:bg-[#252040] text-gray-300'
+                `flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${
+                  isActive
+                    ? 'bg-purple-600 text-white'
+                    : 'hover:bg-[#252040] text-gray-300'
                 }`
               }
             >
@@ -79,7 +85,8 @@ const MarketLayout = () => {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1">
+        {/* Added 'lg:ml-64' to offset the fixed sidebar (which has 'w-64') so content doesn't get hidden behind it */}
+        <div className="flex-1 lg:ml-64 p-4 lg:p-8">
           <Outlet />
         </div>
       </div>
