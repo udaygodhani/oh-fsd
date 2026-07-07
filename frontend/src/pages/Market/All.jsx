@@ -1,34 +1,25 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import TradingViewWidget from '../../components/graph/TradingViewWidget';
 import { FiSearch, FiStar, FiTrendingUp, FiArrowUp, FiArrowDown } from 'react-icons/fi';
+import { CoinContext } from '../../context/coins/CoinContextProvider';
 
 const All = () => {
+  const { initialMockCoins, allCryptoCoins } = useContext(CoinContext)
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCoin, setSelectedCoin] = useState('BTCUSDT');
   const [activeTab, setActiveTab] = useState('all'); // all, spot, futures, gainer, loser
 
-  const allCoins = [
-    { symbol: 'BTCUSDT', name: 'Bitcoin', price: '68,245.32', change: '+2.45', volume: '2.8B', category: 'spot' },
-    { symbol: 'ETHUSDT', name: 'Ethereum', price: '2,456.78', change: '-1.23', volume: '1.4B', category: 'spot' },
-    { symbol: 'SOLUSDT', name: 'Solana', price: '148.92', change: '+5.67', volume: '987M', category: 'futures' },
-    { symbol: 'BNBUSDT', name: 'BNB', price: '578.45', change: '+0.89', volume: '456M', category: 'spot' },
-    { symbol: 'XRPUSDT', name: 'Ripple', price: '0.528', change: '-3.21', volume: '1.1B', category: 'spot' },
-    { symbol: 'ADAUSDT', name: 'Cardano', price: '0.412', change: '+8.91', volume: '678M', category: 'futures' },
-    { symbol: 'DOGEUSDT', name: 'Dogecoin', price: '0.178', change: '-4.56', volume: '892M', category: 'spot' },
-    { symbol: 'AVAXUSDT', name: 'Avalanche', price: '28.45', change: '+3.78', volume: '345M', category: 'futures' },
-  ];
-
-  const filteredCoins = allCoins.filter(coin => {
+  const filteredCoins = allCryptoCoins.filter(coin => {
     const matchesSearch = coin.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         coin.symbol.toLowerCase().includes(searchTerm.toLowerCase());
-    
+      coin.symbol.toLowerCase().includes(searchTerm.toLowerCase());
+
     if (activeTab === 'all') return matchesSearch;
     if (activeTab === 'gainer') return matchesSearch && coin.change.startsWith('+');
     if (activeTab === 'loser') return matchesSearch && coin.change.startsWith('-');
     return matchesSearch;
   });
 
-  const topGainers = [...allCoins].sort((a, b) => parseFloat(b.change) - parseFloat(a.change)).slice(0, 3);
+  const topGainers = [...allCryptoCoins].sort((a, b) => parseFloat(b.change) - parseFloat(a.change)).slice(0, 3);
 
   return (
     <div className="min-h-screen bg-[#0B081E] text-white p-6">
@@ -57,11 +48,10 @@ const All = () => {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-6 py-2 rounded-xl font-medium whitespace-nowrap transition-all capitalize ${
-                activeTab === tab 
-                  ? 'bg-purple-600 text-white' 
+              className={`px-6 py-2 rounded-xl font-medium whitespace-nowrap transition-all capitalize ${activeTab === tab
+                  ? 'bg-purple-600 text-white'
                   : 'bg-[#1F1A38] hover:bg-[#252040] text-gray-400'
-              }`}
+                }`}
             >
               {tab === 'gainer' ? 'Top Gainers' : tab === 'loser' ? 'Top Losers' : tab}
             </button>
@@ -76,7 +66,7 @@ const All = () => {
               <span className="text-sm text-gray-400">24h Volume</span>
             </div>
 
-            <div className="space-y-2 max-h-[650px] overflow-y-auto custom-scrollbar pr-2">
+            <div className="space-y-2 max-h-[650px] p-5 overflow-y-auto custom-scrollbar pr-2">
               {filteredCoins.map((coin) => (
                 <div
                   key={coin.symbol}

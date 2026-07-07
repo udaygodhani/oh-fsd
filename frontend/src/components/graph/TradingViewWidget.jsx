@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 
 const TradingViewWidget = ({ 
   symbol = "BTCUSD", 
-  height = "680px" 
+  height = "100%" 
 }) => {
   const containerRef = useRef(null);
 
@@ -46,7 +46,7 @@ const TradingViewWidget = ({
   }, [symbol]);
 
   return (
-    <div className="w-full bg-[#0A0618] rounded-3xl overflow-hidden border border-purple-500/20 shadow-2xl">
+    <div className="w-full h-full bg-[#0A0618] rounded-3xl overflow-hidden border border-purple-500/20 shadow-2xl">
       <div 
         ref={containerRef}
         className="tradingview-widget-container w-full"
