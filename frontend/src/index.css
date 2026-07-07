@@ -26,3 +26,20 @@ body {
         transform: rotate(360deg);
     }
 }
+/* src/index.css */
+.tradingview-widget-container {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* Ensure parent containers allow full height */
+.market-page, .spot-page, .future-page {
+  min-height: 80vh;
+}
+
+#loginbg{
+    background-size: cover;
+    background-repeat: no-repeat;
+}

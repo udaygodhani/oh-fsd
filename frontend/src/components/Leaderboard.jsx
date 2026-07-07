@@ -2,98 +2,109 @@ import React from "react";
 import { FiAward, FiTrendingUp } from "react-icons/fi";
 
 const Leaderboard = () => {
-    const users = [
+    // Crypto Coins Data (Sorted by Market Cap / Volume - Ascending Rank)
+    const coins = [
         {
-            name: "John Carter",
-            avatar: "https://i.pravatar.cc/150?img=11",
-            posts: 124,
-            points: 1580,
+            rank: 1,
+            name: "Bitcoin",
+            symbol: "BTC",
+            price: "68,450",
+            change: "+2.45",
+            icon: "₿"
         },
         {
-            name: "Emily",
-            avatar: "https://i.pravatar.cc/150?img=32",
-            posts: 110,
-            points: 1435,
+            rank: 2,
+            name: "Ethereum",
+            symbol: "ETH",
+            price: "3,450",
+            change: "+1.82",
+            icon: "⟠"
         },
         {
-            name: "Alex",
-            avatar: "https://i.pravatar.cc/150?img=41",
-            posts: 95,
-            points: 1310,
+            rank: 3,
+            name: "Solana",
+            symbol: "SOL",
+            price: "148.75",
+            change: "+4.12",
+            icon: "◎"
         },
         {
-            name: "Sophia",
-            avatar: "https://i.pravatar.cc/150?img=47",
-            posts: 90,
-            points: 1250,
+            rank: 4,
+            name: "Binance Coin",
+            symbol: "BNB",
+            price: "582.30",
+            change: "+0.95",
+            icon: "🟡"
+        },
+        {
+            rank: 5,
+            name: "Ripple",
+            symbol: "XRP",
+            price: "0.62",
+            change: "-0.45",
+            icon: "✕"
         },
     ];
+
     return (
-        <div className="bg-[#17112D] border border-purple-500/20 rounded-2xl p-6">
+        <div className="bg-[#17112D] border border-purple-500/20 rounded-3xl p-6  top-24">
 
             {/* Header */}
             <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center">
-                    <FiAward className="text-white text-xl" />
+                    <FiAward className="text-white text-2xl" />
                 </div>
 
-                <h2 className="text-white text-xl font-bold">
-                    Leaderboard
-                </h2>
+                <div>
+                    <h2 className="text-white text-2xl font-bold">Top Coins</h2>
+                    <p className="text-purple-400 text-sm">Live Leaderboard</p>
+                </div>
             </div>
 
-            {/* Users */}
-            <div className="space-y-5">
+            {/* Coins List - Ascending Order */}
+            <div className="space-y-4">
 
-                {users.map((user, index) => (
+                {coins.map((coin) => (
                     <div
-                        key={index}
-                        className="flex items-center justify-between p-3 rounded-xl hover:bg-[#231A43] transition duration-300"
+                        key={coin.rank}
+                        className="flex items-center justify-between p-4 rounded-2xl hover:bg-[#231A43] transition-all duration-300 group"
                     >
+                        {/* Left Side */}
+                        <div className="flex items-center gap-4">
+                            <div className="text-2xl w-8 text-center text-purple-400 font-bold">
+                                #{coin.rank}
+                            </div>
 
-                        {/* Left */}
-                        <div className="flex items-center gap-3">
-
-                            <span className="text-purple-400 font-bold w-5">
-                                #{index + 1}
-                            </span>
-
-                            <img
-                                src={user.avatar}
-                                alt={user.name}
-                                className="w-12 h-12 rounded-full object-cover border border-purple-500"
-                            />
+                            <div className="w-11 h-11 flex items-center justify-center text-3xl bg-[#1F1638] rounded-2xl">
+                                {coin.icon}
+                            </div>
 
                             <div>
-                                <h3 className="text-white font-semibold">
-                                    {user.name}
+                                <h3 className="text-white font-semibold text-lg group-hover:text-purple-400 transition">
+                                    {coin.name}
                                 </h3>
-
-                                <p className="text-gray-400 text-sm">
-                                    {user.posts} Posts
-                                </p>
+                                <p className="text-gray-400 text-sm">{coin.symbol}</p>
                             </div>
-
                         </div>
 
-                        {/* Score */}
+                        {/* Right Side - Price & Change */}
                         <div className="text-right">
-                            <div className="flex items-center gap-1 text-green-400 justify-end">
-                                <FiTrendingUp />
-                                <span className="font-semibold">
-                                    {user.points}
-                                </span>
+                            <div className="font-mono font-bold text-lg text-white">
+                                ${coin.price}
                             </div>
-
-                            <p className="text-xs text-gray-500">
-                                Points
-                            </p>
+                            <div className={`text-sm font-medium flex items-center justify-end gap-1 ${
+                                coin.change.startsWith('+') ? 'text-green-400' : 'text-red-400'
+                            }`}>
+                                <FiTrendingUp />
+                                {coin.change}%
+                            </div>
                         </div>
-
                     </div>
                 ))}
 
             </div>
+
+            
         </div>
     );
 };

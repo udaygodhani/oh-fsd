@@ -137,7 +137,9 @@ function Auth() {
     })
     return (
 
-        <div className='min-w-screen min-h-screen flex justify-center items-center bg-[url("/login_backg.png")]'>
+        <div id='loginbg' className='min-w-screen min-h-screen flex justify-center items-center 
+        
+        bg-[url("/m.png")]'>
             <div className="min-h-screen w-full flex justify-center items-center relative z-15">
                 <div className="w-[90%] relative overflow-hidden flex justify-center items-center rounded-2xl sm:w-[60vh]">{/* Border Animation */}
                     <form onSubmit={formType === "login" ? handleLogin : formType === "signup" ? handleSignup : handleOtpVerify} className="relative flex flex-col items-center justify-start gap-3 p-1 rounded-2xl w-full h-full">
