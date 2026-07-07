@@ -29,13 +29,6 @@ const Home = () => {
             <img src="/phone.jpg" alt="" class='flex'/>
             <img src="/phone2.jpg" alt="" class='flex' />
 
-
-
-
-
-
-
-
           </div>
 
           {/* Right Side */}

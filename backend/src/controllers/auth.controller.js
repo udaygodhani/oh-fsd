@@ -19,7 +19,6 @@ const registerUser = async (req, res) => {
                 message: "User with this email already exists."
             })
         }
-
         const hashedPassword = await bcrypt.hash(password, 12);
         const otp = Math.floor(100000 + Math.random() * 900000);
         const html = `<div>
