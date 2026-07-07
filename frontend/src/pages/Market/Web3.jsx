@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FiGlobe, FiWallet, FiZap, FiAward, FiUsers, FiExternalLink } from 'react-icons/fi';
+import { FiGlobe, FiZap, FiAward, FiUsers, FiExternalLink } from 'react-icons/fi';
 
 const Web3 = () => {
   const [activeTab, setActiveTab] = useState('explore');
