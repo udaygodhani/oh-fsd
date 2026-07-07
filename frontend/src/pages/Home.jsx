@@ -3,7 +3,7 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import Sidebar from "../components/Sidebar";
-import CreateThreadBanner from "../components/CreateThreadBanner";
+
 import Footer from "../components/Footer";
 
 const Home = () => {
@@ -27,7 +27,7 @@ const Home = () => {
           <div className="lg:col-span-2 space-y-6">
 
             <img src="/phone.jpg" alt="" class='flex'/>
-            <img src="/phone2.jpg" alt="" class='flex' />
+            <img src="/phone2.jpg" alt="" class='flex bottom' />
 
           </div>
 
@@ -38,9 +38,7 @@ const Home = () => {
 
       </div>
 
-      {/* Banner */}
-      <CreateThreadBanner />
-
+   
       {/* Footer */}
       <Footer />
 

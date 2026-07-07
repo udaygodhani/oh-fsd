@@ -32,8 +32,8 @@ const Navbar = () => {
       name: "Market",
       pages: [
         {
-          name: "Sport",
-          link: "/market/sport"
+          name: "spot",
+          link: "/market/spot"
         },
         {
           name: "Future",

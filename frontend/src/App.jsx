@@ -10,7 +10,7 @@ import CryptoConverter from './pages/More/CryptoConverter'
 import CryptoCalculator from './pages/More/CryptoCalculator'
 import MoreLayout from './pages/More/MoreLayout'
 import ProductLayout from './pages/Products/ProductLayout'
-import Sport from './pages/Market/Sport'
+import Spot from './pages/Market/Spot'
 import Future from './pages/Market/Future'
 import All from './pages/Market/All'
 import Web3 from './pages/Market/Web3'
@@ -30,7 +30,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Auth />} />
         <Route path='/market' element={<MarketLayout />}>
-          <Route path='sport' element={<Sport />} />
+          <Route path='Spot' element={<Spot />} />
           <Route path='future' element={<Future />} />
           <Route path='all' element={<All />} />
           <Route path='web3' element={<Web3 />} />
