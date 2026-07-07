@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 import {
   FiSearch,
-  FiBell,
+  FiBell
 } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/data/UserDataProvider";
