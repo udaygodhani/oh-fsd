@@ -13,7 +13,6 @@ import ProductLayout from './pages/Products/ProductLayout'
 import Spot from './pages/Market/Spot'
 import Future from './pages/Market/Future'
 import All from './pages/Market/All'
-import Web3 from './pages/Market/Web3'
 import AppPromotion from './pages/Products/AppPromotion'
 import SipPlan from './pages/Products/SipPlan'
 import Services from './pages/Products/Services'
@@ -21,6 +20,11 @@ import { Toaster } from 'react-hot-toast';
 import Auth from './pages/auth/Auth';
 import PageNotFound from './pages/NotFound/PageNotFound';
 import Navbar from './components/Navbar';
+import Web3Layout from './components/Layout/Web3Layout'
+import Explore from './pages/Market/Web3/Explore'
+import Gaming from './pages/Market/Web3/Gaming'
+import Nft from './pages/Market/Web3/Nft'
+import Defi from './pages/Market/Web3/Defi'
 
 function App() {
   return (
@@ -33,7 +37,12 @@ function App() {
           <Route path='Spot' element={<Spot />} />
           <Route path='future' element={<Future />} />
           <Route path='all' element={<All />} />
-          <Route path='web3' element={<Web3 />} />
+          <Route path='web3' element={<Web3Layout />} >
+            <Route path='explore' element={<Explore />} />
+            <Route path='defi' element={<Defi />} />
+            <Route path='nft' element={<Nft />} />
+            <Route path='gaming' element={<Gaming />} />
+          </Route>
         </Route>
         <Route path='/products' element={<ProductLayout />}>
           <Route path='apppromotion' element={<AppPromotion />} />
