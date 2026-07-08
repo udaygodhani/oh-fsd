@@ -197,7 +197,7 @@ const Leaderboard = () => {
                                     </thead>
                                     <tbody>
                                         {filteredCoins.map((coin, idx) => (
-                                            <tr key={idx} className="border-b border-purple-500/10 hover:bg-[#231A43]">
+                                            <tr key={idx} className="border-b text-white border-purple-500/10 hover:bg-[#231A43]">
                                                 <td className="py-4">#{idx + 1}</td>
                                                 <td className="py-4 flex items-center gap-3">
                                                     {coin.image && <img src={coin.image} alt="" className="w-8 h-8 rounded-full" />}
