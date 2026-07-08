@@ -1,6 +1,6 @@
 import React from 'react'
 import TradingViewWidget from './components/graph/TradingViewWidget'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 import Home from './pages/Home'
 import MarketLayout from './pages/Market/MarketLayout'
 import CryptoHeatmap from './pages/More/CryptoHeatmap'
@@ -38,6 +38,7 @@ function App() {
           <Route path='future' element={<Future />} />
           <Route path='all' element={<All />} />
           <Route path='web3' element={<Web3Layout />} >
+            <Route index element={<Navigate to='explore' replace />} />
             <Route path='explore' element={<Explore />} />
             <Route path='defi' element={<Defi />} />
             <Route path='nft' element={<Nft />} />

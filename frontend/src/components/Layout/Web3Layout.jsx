@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
-import { FiGlobe, FiZap, FiAward, FiUsers, FiExternalLink, FiStar } from 'react-icons/fi';
-import { FaWallet } from "react-icons/fa";
+import { FiGlobe } from 'react-icons/fi';
 
 const Web3Layout = () => {
-    const [activeTab, setActiveTab] = useState('explore');
+    const [activeTab, setActiveTab] = useState('Explore');
     const navigate = useNavigate();
+    
     const tabs = [
         { name: "Explore", to: "/market/web3/explore" },
         { name: "Defi", to: "/market/web3/defi" },
@@ -29,20 +29,22 @@ const Web3Layout = () => {
 
                 {/* Tabs */}
                 <div className="flex justify-center gap-2 mb-10 border-b border-gray-800 pb-1">
-                    {
-                        tabs.map((tab, idx) => {
-                            return (
-                                <button
-                                    key={idx}
-                                    onClick={() => { setActiveTab(tab.name);navigate(tab.to) }}
-                                    className={`px-8 py-3 rounded-2xl font-medium transition-all capitalize ${activeTab === tab.name
-                                        ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/30'
-                                        : 'hover:bg-[#1F1A38] text-gray-400'
-                                        }`}
-                                >{tab.name}</button>
-                            )
-                        })
-                    }
+                    {tabs.map((tab, idx) => (
+                        <button
+                            key={idx}
+                            onClick={() => { 
+                                setActiveTab(tab.name); 
+                                navigate(tab.to) 
+                            }}
+                            className={`px-8 py-3 rounded-2xl font-medium transition-all capitalize ${
+                                activeTab === tab.name
+                                    ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/30'
+                                    : 'hover:bg-[#1F1A38] text-gray-400'
+                            }`}
+                        >
+                            {tab.name}
+                        </button>
+                    ))}
                 </div>
                 <Outlet />
             </div>
