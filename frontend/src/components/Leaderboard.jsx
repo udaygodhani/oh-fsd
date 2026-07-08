@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { FiAward, FiX } from "react-icons/fi";
+import React, { useState, useEffect ,useState } from "react";
+import { FiAward, FiX, FiTrendingDown, FiX, FiSearch, FiUsers } from "react-icons/fi";
 
-const Leaderboard = () => {
+const Leaderboard = ({ users = [] }) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [activeModalTab, setActiveModalTab] = useState("coins");
+    const [searchQuery, setSearchQuery] = useState("");
+
   const initialCoins = [
     { id: 1, symbol: "BTC", name: "Bitcoin", price: 68450, change: 2.45, icon: "₿" },
     { id: 2, symbol: "ETH", name: "Ethereum", price: 3450, change: 1.82, icon: "◇" },
@@ -33,96 +37,103 @@ const Leaderboard = () => {
   // Sort by Price - Ascending (Lowest to Highest)
   const sortedCoins = [...coins].sort((a, b) => a.price - b.price);
 
-  return (
-    <>
-      <div className="bg-[#17112D] border border-purple-500/20 rounded-2xl p-6">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center">
-              <FiAward className="text-white text-xl" />
-            </div>
-            <div>
-              <h2 className="text-white text-xl font-bold">Top Coins</h2>
-              <p className="text-purple-400 text-sm">Live Leaderboard • All Coins</p>
-            </div>
-          </div>
-          <button 
-            onClick={() => setIsModalOpen(true)}
-            className="bg-purple-600 hover:bg-purple-700 px-5 py-2 rounded-xl text-sm font-medium flex items-center gap-2 transition-colors"
-          >
-            📊 Full Coin Price Board
-          </button>
-        </div>
+    const detailedCoins = [
+        { rank: 1, name: "Bitcoin", symbol: "BTC", price: "68,450.00", change: "+2.45", marketCap: "$1.35T", volume24h: "$28.4B", icon: "₿" },
+        { rank: 2, name: "Ethereum", symbol: "ETH", price: "3,450.25", change: "+1.82", marketCap: "$415.2B", volume24h: "$15.1B", icon: "⟠" },
+        { rank: 3, name: "Solana", symbol: "SOL", price: "148.75", change: "+4.12", marketCap: "$68.9B", volume24h: "$3.8B", icon: "◎" },
+        { rank: 4, name: "Binance Coin", symbol: "BNB", price: "582.30", change: "+0.95", marketCap: "$85.1B", volume24h: "$1.2B", icon: "🟡" },
+        { rank: 5, name: "Ripple", symbol: "XRP", price: "0.62", change: "-0.45", marketCap: "$34.2B", volume24h: "$850M", icon: "✕" },
+        { rank: 6, name: "Cardano", symbol: "ADA", price: "0.48", change: "-1.20", marketCap: "$17.1B", volume24h: "$420M", icon: "₳" },
+        { rank: 7, name: "Dogecoin", symbol: "DOGE", price: "0.14", change: "+8.54", marketCap: "$20.3B", volume24h: "$1.8B", icon: "Ð" },
+        { rank: 8, name: "Shiba Inu", symbol: "SHIB", price: "0.000022", change: "+11.20", marketCap: "$13.1B", volume24h: "$950M", icon: "🐕" },
+        { rank: 9, name: "Avalanche", symbol: "AVAX", price: "32.40", change: "-2.15", marketCap: "$12.8B", volume24h: "$310M", icon: "🔺" },
+        { rank: 10, name: "Chainlink", symbol: "LINK", price: "15.10", change: "+3.60", marketCap: "$8.9B", volume24h: "$280M", icon: "🔗" }
+    ];
 
-        {/* All Coins in Leaderboard - Ascending Order */}
-        <div className="space-y-3 max-h-[500px] overflow-y-auto custom-scrollbar pr-2">
-          {sortedCoins.map((coin, index) => (
-            <div key={coin.id} className="flex items-center justify-between p-4 rounded-xl hover:bg-[#231A43] transition-all">
-              <div className="flex items-center gap-4">
-                <span className="text-purple-400 font-bold w-6 text-lg">#{index + 1}</span>
-                <div className="w-10 h-10 rounded-2xl bg-[#252040] flex items-center justify-center text-2xl border border-purple-500/30">
-                  {coin.icon}
+    const fallbackUsers = [
+        { rank: 1, name: "John Carter", avatar: "https://i.pravatar.cc/150?img=11", posts: 124, points: 1580 },
+        { rank: 2, name: "Emily", avatar: "https://i.pravatar.cc/150?img=32", posts: 110, points: 1435 },
+        { rank: 3, name: "Alex", avatar: "https://i.pravatar.cc/150?img=41", posts: 95, points: 1310 },
+        { rank: 4, name: "Sophia", avatar: "https://i.pravatar.cc/150?img=47", posts: 90, points: 1250 }
+    ];
+
+    const displayUsers = users.length > 0
+        ? users.map((u, i) => ({ rank: i + 1, ...u }))
+        : fallbackUsers;
+
+    // Filter detailed coins
+    const filteredCoins = detailedCoins.filter(
+        (coin) =>
+            coin.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            coin.symbol.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    // Filter users
+    const filteredUsers = displayUsers.filter(
+        (user) => user.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    return (
+        <div className="bg-[#17112D] border border-purple-500/20 rounded-3xl p-6  top-24">
+
+            {/* Header */}
+            <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center">
+                    <FiAward className="text-white text-2xl" />
                 </div>
+
                 <div>
-                  <div className="font-semibold text-white">{coin.name}</div>
-                  <div className="text-xs text-gray-400 font-mono">{coin.symbol}</div>
+                    <h2 className="text-white text-2xl font-bold">Top Coins</h2>
+                    <p className="text-purple-400 text-sm">Live Leaderboard</p>
                 </div>
-              </div>
-              <div className="text-right">
-                <div className="font-mono font-bold text-lg text-white">
-                  ${coin.price.toLocaleString()}
-                </div>
-                <div className={`text-sm flex items-center justify-end gap-1 ${coin.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                  {coin.change >= 0 ? '↑' : '↓'} {Math.abs(coin.change)}%
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Full Coin Price Board Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#1A1633] w-full max-w-4xl rounded-3xl border border-purple-500/30 overflow-hidden">
-            <div className="p-6 border-b border-gray-700 flex items-center justify-between">
-              <div>
-                <h2 className="text-2xl font-bold">All Coins Price Board</h2>
-                <p className="text-sm text-gray-400">Sorted by Price (Lowest → Highest) • Live Updates</p>
-              </div>
-              <button onClick={() => setIsModalOpen(false)} className="text-3xl text-gray-400 hover:text-white">
-                <FiX />
-              </button>
             </div>
 
-            <div className="p-6 max-h-[65vh] overflow-y-auto custom-scrollbar">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {sortedCoins.map((coin) => (
-                  <div key={coin.id} className="bg-[#252040] p-5 rounded-2xl flex justify-between items-center hover:ring-1 hover:ring-purple-500 transition">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-2xl bg-[#17112D] flex items-center justify-center text-3xl">
-                        {coin.icon}
-                      </div>
-                      <div>
-                        <div className="font-semibold">{coin.name}</div>
-                        <div className="text-sm text-gray-400">{coin.symbol}</div>
-                      </div>
+            {/* Coins List - Ascending Order */}
+            <div className="space-y-4">
+
+                {coins.map((coin) => (
+                    <div
+                        key={coin.rank}
+                        className="flex items-center justify-between p-4 rounded-2xl hover:bg-[#231A43] transition-all duration-300 group"
+                    >
+                        {/* Left Side */}
+                        <div className="flex items-center gap-4">
+                            <div className="text-2xl w-8 text-center text-purple-400 font-bold">
+                                #{coin.rank}
+                            </div>
+
+                            <div className="w-11 h-11 flex items-center justify-center text-3xl bg-[#1F1638] rounded-2xl">
+                                {coin.icon}
+                            </div>
+
+                            <div>
+                                <h3 className="text-white font-semibold text-lg group-hover:text-purple-400 transition">
+                                    {coin.name}
+                                </h3>
+                                <p className="text-gray-400 text-sm">{coin.symbol}</p>
+                            </div>
+                        </div>
+
+                        {/* Right Side - Price & Change */}
+                        <div className="text-right">
+                            <div className="font-mono font-bold text-lg text-white">
+                                ${coin.price}
+                            </div>
+                            <div className={`text-sm font-medium flex items-center justify-end gap-1 ${
+                                coin.change.startsWith('+') ? 'text-green-400' : 'text-red-400'
+                            }`}>
+                                <FiTrendingUp />
+                                {coin.change}%
+                            </div>
+                        </div>
                     </div>
-                    <div className="text-right">
-                      <div className="font-mono font-bold text-xl">${coin.price.toLocaleString()}</div>
-                      <div className={`text-sm ${coin.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                        {coin.change >= 0 ? '↑' : '↓'} {Math.abs(coin.change)}%
-                      </div>
-                    </div>
-                  </div>
                 ))}
-              </div>
+
             </div>
-          </div>
+
+            
         </div>
-      )}
-    </>
-  );
+    );
 };
 
 export default Leaderboard;
