@@ -24,33 +24,6 @@ const Sidebar = () => {
     },
   ];
 
-  const leaderboardUsers = [
-    {
-      name: "John Carter",
-      avatar: "https://i.pravatar.cc/150?img=11",
-      posts: 124,
-      points: 1580,
-    },
-    {
-      name: "Emily",
-      avatar: "https://i.pravatar.cc/150?img=32",
-      posts: 110,
-      points: 1435,
-    },
-    {
-      name: "Alex",
-      avatar: "https://i.pravatar.cc/150?img=41",
-      posts: 95,
-      points: 1310,
-    },
-    {
-      name: "Sophia",
-      avatar: "https://i.pravatar.cc/150?img=47",
-      posts: 90,
-      points: 1250,
-    },
-  ];
-
   return (
     <aside className="w-full lg:w-[360px] space-y-8">
 
@@ -73,12 +46,11 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {/* Leaderboard */}
-      <Leaderboard users={leaderboardUsers} />
+      {/* Leaderboard - Now using MongoDB + Live Prices */}
+      <Leaderboard />
 
       {/* Announcement */}
       <div className="bg-gradient-to-r from-purple-600 to-pink-500 rounded-2xl p-6">
-
         <h3 className="text-white text-xl font-bold">
           📢 Announcement
         </h3>
@@ -87,7 +59,6 @@ const Sidebar = () => {
           Join our weekly developer meetup every Friday and
           connect with thousands of developers around the world.
         </p>
-
       </div>
 
     </aside>
