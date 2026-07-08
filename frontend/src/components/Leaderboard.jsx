@@ -1,12 +1,19 @@
+<<<<<<< HEAD
 import React, { useState, useContext } from "react";
 import { FiAward, FiTrendingUp, FiTrendingDown, FiX, FiSearch, FiUsers } from "react-icons/fi";
 import { CoinContext } from "../context/coins/CoinContextProvider";
+=======
+import React, { useState, useEffect } from "react";
+import { FiAward, FiTrendingUp, FiX, FiSearch } from "react-icons/fi";
+>>>>>>> 0f7592004b898d59f3dc89de3b7837c01466b8b5
 
-const Leaderboard = ({ users = [] }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [activeModalTab, setActiveModalTab] = useState("coins");
-    const [searchQuery, setSearchQuery] = useState("");
+const Leaderboard = () => {
+  const [coins, setCoins] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+<<<<<<< HEAD
     const { allCryptoCoins } = useContext(CoinContext);
 
     // Dynamic coins lists
@@ -21,44 +28,113 @@ const Leaderboard = ({ users = [] }) => {
         rank: index + 1,
         ...coin
     }));
+=======
+  // Fetch coins from Backend MongoDB
+  useEffect(() => {
+    const fetchCoins = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/coins'); // Change port if your backend uses different one
+        const data = await res.json();
+        
+        if (data.success) {
+          setCoins(data.coins);
+        }
+      } catch (err) {
+        console.error("Failed to fetch coins:", err);
+        // Fallback to local data if backend fails
+        setCoins([
+          { id: 1, symbol: "BTC", name: "Bitcoin", price: 68450, change: 2.45, icon: "₿" },
+          { id: 2, symbol: "ETH", name: "Ethereum", price: 3450, change: 1.82, icon: "◇" },
+          { id: 3, symbol: "SOL", name: "Solana", price: 148.75, change: 4.12, icon: "◉" },
+          { id: 4, symbol: "BNB", name: "Binance Coin", price: 582.30, change: 0.95, icon: "🟡" },
+          { id: 5, symbol: "XRP", name: "Ripple", price: 0.62, change: -0.45, icon: "✕" },
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    const fallbackUsers = [
-        { rank: 1, name: "John Carter", avatar: "https://i.pravatar.cc/150?img=11", posts: 124, points: 1580 },
-        { rank: 2, name: "Emily", avatar: "https://i.pravatar.cc/150?img=32", posts: 110, points: 1435 },
-        { rank: 3, name: "Alex", avatar: "https://i.pravatar.cc/150?img=41", posts: 95, points: 1310 },
-        { rank: 4, name: "Sophia", avatar: "https://i.pravatar.cc/150?img=47", posts: 90, points: 1250 }
-    ];
+    fetchCoins();
+  }, []);
+>>>>>>> 0f7592004b898d59f3dc89de3b7837c01466b8b5
 
-    const displayUsers = users.length > 0
-        ? users.map((u, i) => ({ rank: i + 1, ...u }))
-        : fallbackUsers;
+  // Live Price Updates (Simulation)
+  useEffect(() => {
+    if (coins.length === 0) return;
 
-    // Filter detailed coins
-    const filteredCoins = detailedCoins.filter(
-        (coin) =>
-            coin.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            coin.symbol.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const interval = setInterval(() => {
+      setCoins(prev => prev.map(coin => {
+        const volatility = coin.price < 10 ? 0.015 : coin.price > 1000 ? 0.0012 : 0.0025;
+        const fluctuation = (Math.random() - 0.5) * (coin.price * volatility);
+        const newPrice = Math.max(0.1, parseFloat((coin.price + fluctuation).toFixed(coin.price < 10 ? 2 : 0)));
+        
+        const newChange = parseFloat(((newPrice - coin.price) / coin.price * 100).toFixed(2));
 
-    // Filter users
-    const filteredUsers = displayUsers.filter(
-        (user) => user.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+        return { ...coin, price: newPrice, change: newChange };
+      }));
+    }, 7000);
 
-    return (
-        <>
-            <div className="bg-[#17112D] border border-purple-500/20 rounded-3xl p-6">
-                {/* Header */}
-                <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center">
-                        <FiAward className="text-white text-2xl" />
-                    </div>
+    return () => clearInterval(interval);
+  }, [coins.length]);
 
-                    <div>
-                        <h2 className="text-white text-2xl font-bold">Top Coins</h2>
-                        <p className="text-purple-400 text-sm">Live Leaderboard</p>
-                    </div>
+  // Filter & Sort (Ascending Price)
+  const filteredAndSortedCoins = [...coins]
+    .filter(coin => 
+      coin.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      coin.symbol.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .sort((a, b) => a.price - b.price);
+
+  return (
+    <div className="bg-[#17112D] border border-purple-500/20 rounded-3xl p-6">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center">
+            <FiAward className="text-white text-2xl" />
+          </div>
+          <div>
+            <h2 className="text-white text-2xl font-bold">Top Coins</h2>
+            <p className="text-purple-400 text-sm">Live Leaderboard</p>
+          </div>
+        </div>
+
+        <button 
+          onClick={() => setIsModalOpen(true)}
+          className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-xl text-sm font-medium"
+        >
+          📊 Full Board
+        </button>
+      </div>
+
+      {/* Search */}
+      <div className="relative mb-6">
+        <FiSearch className="absolute left-4 top-3.5 text-gray-400" />
+        <input
+          type="text"
+          placeholder="Search coins..."
+          className="w-full bg-[#1F1A38] border border-gray-700 pl-11 py-3 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
+
+      {/* Coins List */}
+      {loading ? (
+        <p className="text-gray-400 text-center py-8">Loading coins...</p>
+      ) : (
+        <div className="space-y-3 max-h-[520px] overflow-y-auto pr-2 custom-scrollbar">
+          {filteredAndSortedCoins.map((coin, index) => (
+            <div
+              key={coin.id || coin.symbol}
+              className="flex items-center justify-between p-4 rounded-2xl hover:bg-[#231A43] transition-all group"
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-purple-400 font-bold w-8 text-xl">#{index + 1}</div>
+                <div className="w-11 h-11 flex items-center justify-center text-3xl bg-[#252040] rounded-2xl">
+                  {coin.icon}
                 </div>
+<<<<<<< HEAD
 
                 {/* Coins List - Ascending Order */}
                 <div className="space-y-4">
@@ -103,21 +179,24 @@ const Leaderboard = ({ users = [] }) => {
                             </div>
                         </div>
                     ))}
+=======
+                <div>
+                  <h3 className="text-white font-semibold group-hover:text-purple-400">{coin.name}</h3>
+                  <p className="text-gray-400 text-sm">{coin.symbol}</p>
+>>>>>>> 0f7592004b898d59f3dc89de3b7837c01466b8b5
                 </div>
+              </div>
 
-                {/* View Details Button */}
-                <div className="mt-6 pt-4 border-t border-purple-500/10">
-                    <button
-                        onClick={() => {
-                            setIsModalOpen(true);
-                            setSearchQuery("");
-                        }}
-                        className="w-full py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white rounded-2xl font-bold transition-all duration-300 cursor-pointer shadow-lg shadow-purple-500/15 hover:shadow-purple-500/30 flex items-center justify-center gap-2"
-                    >
-                        <FiAward className="text-lg" /> View Detailed Leaderboard
-                    </button>
+              <div className="text-right">
+                <div className="font-mono font-bold text-xl text-white">
+                  ${coin.price.toLocaleString()}
                 </div>
+                <div className={`text-sm flex items-center justify-end gap-1 ${coin.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                  {coin.change >= 0 ? '↑' : '↓'} {Math.abs(coin.change)}%
+                </div>
+              </div>
             </div>
+<<<<<<< HEAD
 
             {/* Modal */}
             {isModalOpen && (
@@ -302,6 +381,13 @@ const Leaderboard = ({ users = [] }) => {
             )}
         </>
     );
+=======
+          ))}
+        </div>
+      )}
+    </div>
+  );
+>>>>>>> 0f7592004b898d59f3dc89de3b7837c01466b8b5
 };
 
 export default Leaderboard;

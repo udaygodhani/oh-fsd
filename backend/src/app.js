@@ -1,27 +1,20 @@
-const express = require('express');
-const app = express();
-const authRouter = require("./routes/auth.route")
-const cookieParser = require("cookie-parser")
-const Cors = require("cors");
+const express = require("express")
+const app = express()
+const CookieParser = require("cookie-parser")
+const Cors = require("cors")
 
-// default middlewares
 app.use(express.json())
-app.use(express.urlencoded({extended: true}))
-app.use(cookieParser())
+app.use(express.urlencoded({extended:true}))
+app.use(CookieParser())
 app.use(Cors({
-    origin: ["http://localhost:5173"],
-    credentials: true,
-    secure: false
+    origin: "http://localhost:5173",
+    credentials: true
 }))
-// health route
-app.get("/",(req,res)=>{
-    res.json({
-        success: true,
-        message: "Server is Running"
-    })
-})
+const coinRouter = require("./routes/coin.route");
+const authRouter = require("./routes/auth.route");
 
-// auth Router
-app.use("/api/auth",authRouter)
+// Add after authRouter
+app.use("/api/coins", coinRouter);
+app.use("/api/auth", authRouter);
 
 module.exports = app;
