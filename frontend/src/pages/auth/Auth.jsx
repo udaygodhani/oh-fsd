@@ -54,6 +54,7 @@ function Auth() {
             setShowEmailInput(false);
             setFormType("otpverify");
         } catch (error) {
+            console.log(error)
             toast.dismiss(loadingToast)
             toast.error(error.message || "Something Went Wrong.")
             setLoading(false)
