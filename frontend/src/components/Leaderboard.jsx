@@ -1,11 +1,11 @@
-<<<<<<< HEAD
+
 import React, { useState, useContext } from "react";
 import { FiAward, FiTrendingUp, FiTrendingDown, FiX, FiSearch, FiUsers } from "react-icons/fi";
 import { CoinContext } from "../context/coins/CoinContextProvider";
-=======
+
 import React, { useState, useEffect } from "react";
 import { FiAward, FiTrendingUp, FiX, FiSearch } from "react-icons/fi";
->>>>>>> 0f7592004b898d59f3dc89de3b7837c01466b8b5
+
 
 const Leaderboard = () => {
   const [coins, setCoins] = useState([]);
@@ -13,7 +13,7 @@ const Leaderboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-<<<<<<< HEAD
+
     const { allCryptoCoins } = useContext(CoinContext);
 
     // Dynamic coins lists
@@ -28,7 +28,7 @@ const Leaderboard = () => {
         rank: index + 1,
         ...coin
     }));
-=======
+
   // Fetch coins from Backend MongoDB
   useEffect(() => {
     const fetchCoins = async () => {
@@ -56,7 +56,6 @@ const Leaderboard = () => {
 
     fetchCoins();
   }, []);
->>>>>>> 0f7592004b898d59f3dc89de3b7837c01466b8b5
 
   // Live Price Updates (Simulation)
   useEffect(() => {
@@ -134,7 +133,7 @@ const Leaderboard = () => {
                 <div className="w-11 h-11 flex items-center justify-center text-3xl bg-[#252040] rounded-2xl">
                   {coin.icon}
                 </div>
-<<<<<<< HEAD
+
 
                 {/* Coins List - Ascending Order */}
                 <div className="space-y-4">
@@ -179,11 +178,11 @@ const Leaderboard = () => {
                             </div>
                         </div>
                     ))}
-=======
+
                 <div>
                   <h3 className="text-white font-semibold group-hover:text-purple-400">{coin.name}</h3>
                   <p className="text-gray-400 text-sm">{coin.symbol}</p>
->>>>>>> 0f7592004b898d59f3dc89de3b7837c01466b8b5
+
                 </div>
               </div>
 
@@ -196,7 +195,7 @@ const Leaderboard = () => {
                 </div>
               </div>
             </div>
-<<<<<<< HEAD
+
 
             {/* Modal */}
             {isModalOpen && (
@@ -381,13 +380,13 @@ const Leaderboard = () => {
             )}
         </>
     );
-=======
+
           ))}
         </div>
       )}
     </div>
   );
->>>>>>> 0f7592004b898d59f3dc89de3b7837c01466b8b5
+
 };
 
 export default Leaderboard;
