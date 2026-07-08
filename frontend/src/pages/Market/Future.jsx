@@ -1,21 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import TradingViewWidget from '../../components/graph/TradingViewWidget';
 import { FiSearch, FiStar, FiTrendingUp, FiArrowUp, FiArrowDown, FiZap } from 'react-icons/fi';
+import { CoinContext } from '../../context/coins/CoinContextProvider';
 
 const Future = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCoin, setSelectedCoin] = useState('BTCUSDT');
   const [leverage, setLeverage] = useState(10);
+    const { initialMockCoins, allCryptoCoins } = useContext(CoinContext)
 
-  const futuresCoins = [
-    { symbol: 'BTCUSDT', name: 'Bitcoin', price: '68,245.32', change: '+2.45', volume: '2.8B', funding: '0.01%' },
-    { symbol: 'ETHUSDT', name: 'Ethereum', price: '2,456.78', change: '-1.23', volume: '1.4B', funding: '0.005%' },
-    { symbol: 'SOLUSDT', name: 'Solana', price: '148.92', change: '+5.67', volume: '987M', funding: '0.012%' },
-    { symbol: 'BNBUSDT', name: 'BNB', price: '578.45', change: '+0.89', volume: '456M', funding: '-0.008%' },
-    { symbol: 'XRPUSDT', name: 'Ripple', price: '0.528', change: '-3.21', volume: '1.1B', funding: '0.015%' },
-  ];
-
-  const filteredCoins = futuresCoins.filter(coin =>
+  const filteredCoins = allCryptoCoins.filter(coin =>
     coin.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     coin.symbol.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -56,7 +50,7 @@ const Future = () => {
               <span className="text-xs px-3 py-1 bg-yellow-500/10 text-yellow-400 rounded-full">Funding Rate</span>
             </div>
 
-            <div className="space-y-3 max-h-[620px] overflow-y-auto custom-scrollbar">
+            <div className="space-y-3 max-h-[620px] p-5 overflow-y-auto custom-scrollbar">
               {filteredCoins.map((coin) => (
                 <div
                   key={coin.symbol}
