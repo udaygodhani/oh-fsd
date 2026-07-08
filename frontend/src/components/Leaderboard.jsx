@@ -105,10 +105,10 @@ const Leaderboard = () => {
                                 <div className="flex items-center gap-4">
                                     <div className="text-purple-400 font-bold w-8 text-xl">#{coin.rank}</div>
                                     {coin.image ? (
-                                        <img 
-                                            src={coin.image} 
-                                            alt={coin.name} 
-                                            className="w-11 h-11 rounded-2xl object-cover" 
+                                        <img
+                                            src={coin.image}
+                                            alt={coin.name}
+                                            className="w-11 h-11 rounded-2xl object-cover"
                                         />
                                     ) : (
                                         <div className="w-11 h-11 flex items-center justify-center text-3xl bg-[#252040] rounded-2xl">
@@ -161,20 +161,14 @@ const Leaderboard = () => {
 
                         {/* Tabs + Search */}
                         <div className="p-6 border-b border-purple-500/10 flex flex-col md:flex-row gap-4">
-                            <div className="flex bg-[#0B081E] p-1 rounded-2xl">
-                                <button
-                                    onClick={() => { setActiveModalTab("coins"); setSearchQuery(""); }}
-                                    className={`px-6 py-2.5 rounded-xl text-sm font-medium transition-all ${activeModalTab === "coins" ? "bg-purple-600 text-white" : "text-gray-400 hover:text-white"}`}
-                                >
-                                    🪙 Coins
-                                </button>
-                                <button
-                                    onClick={() => { setActiveModalTab("users"); setSearchQuery(""); }}
-                                    className={`px-6 py-2.5 rounded-xl text-sm font-medium transition-all ${activeModalTab === "users" ? "bg-purple-600 text-white" : "text-gray-400 hover:text-white"}`}
-                                >
-                                    👥 Users
-                                </button>
-                            </div>
+
+                            <button
+                                onClick={() => { setActiveModalTab("coins"); setSearchQuery(""); }}
+                                className={`px-6 py-2.5 rounded-xl text-sm font-medium transition-all ${activeModalTab === "coins" ? "bg-purple-600 text-white" : "text-gray-400 hover:text-white"}`}
+                            >
+                                🪙 Coins
+                            </button>
+
 
                             <div className="relative flex-1">
                                 <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -202,7 +196,7 @@ const Leaderboard = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {filteredCoins.slice(0, 15).map((coin, idx) => (
+                                        {filteredCoins.map((coin, idx) => (
                                             <tr key={idx} className="border-b border-purple-500/10 hover:bg-[#231A43]">
                                                 <td className="py-4">#{idx + 1}</td>
                                                 <td className="py-4 flex items-center gap-3">
