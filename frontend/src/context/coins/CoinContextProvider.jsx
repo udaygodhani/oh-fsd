@@ -4,11 +4,11 @@ import React, { createContext, useEffect, useState } from 'react'
 export const CoinContext = createContext()
 const CoinContextProvider = (props) => {
   const initialMockCoins = [
-    { symbol: 'BTCUSDT', name: 'Bitcoin', price: '68,245.32', change: '+2.45', volume: '1.2B' },
-    { symbol: 'ETHUSDT', name: 'Ethereum', price: '2,456.78', change: '-1.23', volume: '892M' },
-    { symbol: 'SOLUSDT', name: 'Solana', price: '148.92', change: '+5.67', volume: '456M' },
-    { symbol: 'BNBUSDT', name: 'BNB', price: '578.45', change: '+0.89', volume: '234M' },
-    { symbol: 'XRPUSDT', name: 'Ripple', price: '0.528', change: '-3.21', volume: '678M' },
+    { symbol: 'BTCUSDT', name: 'Bitcoin', price: '68,245.32', change: '+2.45', volume: '1.2B', image: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png' },
+    { symbol: 'ETHUSDT', name: 'Ethereum', price: '2,456.78', change: '-1.23', volume: '892M', image: 'https://assets.coingecko.com/coins/images/279/large/ethereum.png' },
+    { symbol: 'SOLUSDT', name: 'Solana', price: '148.92', change: '+5.67', volume: '456M', image: 'https://assets.coingecko.com/coins/images/4128/large/solana.png' },
+    { symbol: 'BNBUSDT', name: 'BNB', price: '578.45', change: '+0.89', volume: '234M', image: 'https://assets.coingecko.com/coins/images/825/large/binance-coin-logo.png' },
+    { symbol: 'XRPUSDT', name: 'Ripple', price: '0.528', change: '-3.21', volume: '678M', image: 'https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png' },
   ];
 
   const [allCryptoCoins, setallCryptoCoins] = useState(initialMockCoins);

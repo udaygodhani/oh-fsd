@@ -58,9 +58,13 @@ const Future = () => {
                   className={`flex items-center justify-between p-4 rounded-xl cursor-pointer transition-all hover:bg-[#252040] ${selectedCoin === coin.symbol ? 'bg-[#2A2450] ring-2 ring-purple-500' : 'bg-[#1F1A38]'}`}
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center font-bold text-sm">
-                      {coin.symbol.slice(0, 3)}
-                    </div>
+                    {coin.image ? (
+                      <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full object-cover" />
+                    ) : (
+                      <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center font-bold text-sm">
+                        {coin.symbol.slice(0, 3)}
+                      </div>
+                    )}
                     <div>
                       <p className="font-semibold">{coin.name}</p>
                       <p className="text-sm text-gray-400">{coin.symbol}</p>

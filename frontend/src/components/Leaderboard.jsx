@@ -1,67 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { FiAward, FiTrendingUp, FiTrendingDown, FiX, FiSearch, FiUsers } from "react-icons/fi";
+import { CoinContext } from "../context/coins/CoinContextProvider";
 
 const Leaderboard = ({ users = [] }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [activeModalTab, setActiveModalTab] = useState("coins");
     const [searchQuery, setSearchQuery] = useState("");
 
-    // Crypto Coins Data (Sorted by Market Cap / Volume - Ascending Rank)
-    const coins = [
-        {
-            rank: 1,
-            name: "Bitcoin",
-            symbol: "BTC",
-            price: "68,450",
-            change: "+2.45",
-            icon: "₿"
-        },
-        {
-            rank: 2,
-            name: "Ethereum",
-            symbol: "ETH",
-            price: "3,450",
-            change: "+1.82",
-            icon: "⟠"
-        },
-        {
-            rank: 3,
-            name: "Solana",
-            symbol: "SOL",
-            price: "148.75",
-            change: "+4.12",
-            icon: "◎"
-        },
-        {
-            rank: 4,
-            name: "Binance Coin",
-            symbol: "BNB",
-            price: "582.30",
-            change: "+0.95",
-            icon: "🟡"
-        },
-        {
-            rank: 5,
-            name: "Ripple",
-            symbol: "XRP",
-            price: "0.62",
-            change: "-0.45",
-            icon: "✕"
-        },
-    ];
+    const { allCryptoCoins } = useContext(CoinContext);
 
-    const detailedCoins = [
-        { rank: 1, name: "Bitcoin", symbol: "BTC", price: "68,450.00", change: "+2.45", marketCap: "$1.35T", volume24h: "$28.4B", icon: "₿" },
-        { rank: 2, name: "Ethereum", symbol: "ETH", price: "3,450.25", change: "+1.82", marketCap: "$415.2B", volume24h: "$15.1B", icon: "⟠" },
-        { rank: 3, name: "Solana", symbol: "SOL", price: "148.75", change: "+4.12", marketCap: "$68.9B", volume24h: "$3.8B", icon: "◎" },
-        { rank: 4, name: "Binance Coin", symbol: "BNB", price: "582.30", change: "+0.95", marketCap: "$85.1B", volume24h: "$1.2B", icon: "🟡" },
-        { rank: 5, name: "Ripple", symbol: "XRP", price: "0.62", change: "-0.45", marketCap: "$34.2B", volume24h: "$850M", icon: "✕" },
-        { rank: 6, name: "Cardano", symbol: "ADA", price: "0.48", change: "-1.20", marketCap: "$17.1B", volume24h: "$420M", icon: "₳" },
-        { rank: 7, name: "Dogecoin", symbol: "DOGE", price: "0.14", change: "+8.54", marketCap: "$20.3B", volume24h: "$1.8B", icon: "Ð" },
-        { rank: 8, name: "Shiba Inu", symbol: "SHIB", price: "0.000022", change: "+11.20", marketCap: "$13.1B", volume24h: "$950M", icon: "🐕" },
-        { rank: 9, name: "Avalanche", symbol: "AVAX", price: "32.40", change: "-2.15", marketCap: "$12.8B", volume24h: "$310M", icon: "🔺" },
-        { rank: 10, name: "Chainlink", symbol: "LINK", price: "15.10", change: "+3.60", marketCap: "$8.9B", volume24h: "$280M", icon: "🔗" }
-    ];
+    // Dynamic coins lists
+    const coinsToDisplay = allCryptoCoins && allCryptoCoins.length > 0 ? allCryptoCoins : [];
+    
+    const sidebarCoins = coinsToDisplay.slice(0, 5).map((coin, index) => ({
+        rank: index + 1,
+        ...coin
+    }));
+
+    const detailedCoins = coinsToDisplay.map((coin, index) => ({
+        rank: index + 1,
+        ...coin
+    }));
 
     const fallbackUsers = [
         { rank: 1, name: "John Carter", avatar: "https://i.pravatar.cc/150?img=11", posts: 124, points: 1580 },
@@ -103,10 +62,10 @@ const Leaderboard = ({ users = [] }) => {
 
                 {/* Coins List - Ascending Order */}
                 <div className="space-y-4">
-                    {coins.map((coin) => (
+                    {sidebarCoins.map((coin) => (
                         <div
-                            key={coin.rank}
-                            className="flex items-center justify-between p-4 rounded-2xl hover:bg-[#231A43] transition-all duration-300 group"
+                            key={coin.symbol}
+                            className="flex items-center justify-between p-4 rounded-2xl hover:bg-[#231A43]/50 transition-all duration-300 group"
                         >
                             {/* Left Side */}
                             <div className="flex items-center gap-4">
@@ -114,9 +73,13 @@ const Leaderboard = ({ users = [] }) => {
                                     #{coin.rank}
                                 </div>
 
-                                <div className="w-11 h-11 flex items-center justify-center text-3xl bg-[#1F1638] rounded-2xl">
-                                    {coin.icon}
-                                </div>
+                                {coin.image ? (
+                                    <img src={coin.image} alt={coin.name} className="w-11 h-11 rounded-2xl object-cover bg-[#1F1638]" />
+                                ) : (
+                                    <div className="w-11 h-11 flex items-center justify-center text-xl bg-[#1F1638] rounded-2xl font-bold text-white">
+                                        {coin.symbol.slice(0, 3)}
+                                    </div>
+                                )}
 
                                 <div>
                                     <h3 className="text-white font-semibold text-lg group-hover:text-purple-400 transition">
@@ -132,9 +95,9 @@ const Leaderboard = ({ users = [] }) => {
                                     ${coin.price}
                                 </div>
                                 <div className={`text-sm font-medium flex items-center justify-end gap-1 ${
-                                    coin.change.startsWith('+') ? 'text-green-400' : 'text-red-400'
+                                    String(coin.change).startsWith('+') ? 'text-green-400' : 'text-red-400'
                                 }`}>
-                                    {coin.change.startsWith('+') ? <FiTrendingUp /> : <FiTrendingDown />}
+                                    {String(coin.change).startsWith('+') ? <FiTrendingUp /> : <FiTrendingDown />}
                                     {coin.change}%
                                 </div>
                             </div>
@@ -250,15 +213,19 @@ const Leaderboard = ({ users = [] }) => {
                                             {filteredCoins.length > 0 ? (
                                                 filteredCoins.map((coin) => (
                                                     <tr
-                                                        key={coin.rank}
+                                                        key={coin.symbol}
                                                         className="border-b border-purple-500/5 hover:bg-[#231A43]/50 transition-colors duration-200 text-white font-medium"
                                                     >
                                                         <td className="py-4 pl-4 font-bold text-purple-400 text-lg">#{coin.rank}</td>
                                                         <td className="py-4">
                                                             <div className="flex items-center gap-3">
-                                                                <span className="w-9 h-9 flex items-center justify-center text-xl bg-[#1F1638] rounded-xl border border-purple-500/10">
-                                                                    {coin.icon}
-                                                                </span>
+                                                                {coin.image ? (
+                                                                    <img src={coin.image} alt={coin.name} className="w-9 h-9 rounded-xl object-cover bg-[#1F1638]" />
+                                                                ) : (
+                                                                    <span className="w-9 h-9 flex items-center justify-center text-xl bg-[#1F1638] rounded-xl border border-purple-500/10 font-bold text-white">
+                                                                        {coin.symbol.slice(0, 3)}
+                                                                    </span>
+                                                                )}
                                                                 <div>
                                                                     <span className="block font-bold">{coin.name}</span>
                                                                     <span className="text-gray-400 text-xs font-mono uppercase">{coin.symbol}</span>
@@ -267,15 +234,15 @@ const Leaderboard = ({ users = [] }) => {
                                                         </td>
                                                         <td className="py-4 text-right font-mono font-bold">${coin.price}</td>
                                                         <td className={`py-4 text-right font-semibold font-mono ${
-                                                            coin.change.startsWith("+") ? "text-green-400" : "text-red-400"
+                                                            String(coin.change).startsWith("+") ? "text-green-400" : "text-red-400"
                                                         }`}>
                                                             <span className="inline-flex items-center gap-1 justify-end">
-                                                                {coin.change.startsWith("+") ? <FiTrendingUp /> : <FiTrendingDown />}
+                                                                {String(coin.change).startsWith("+") ? <FiTrendingUp /> : <FiTrendingDown />}
                                                                 {coin.change}%
                                                             </span>
                                                         </td>
-                                                        <td className="py-4 text-right text-gray-300 font-mono hidden sm:table-cell">{coin.marketCap}</td>
-                                                        <td className="py-4 text-right text-gray-300 font-mono pr-4 hidden md:table-cell">{coin.volume24h}</td>
+                                                        <td className="py-4 text-right text-gray-300 font-mono hidden sm:table-cell">{coin.marketCap || "N/A"}</td>
+                                                        <td className="py-4 text-right text-gray-300 font-mono pr-4 hidden md:table-cell">{coin.volume || "N/A"}</td>
                                                     </tr>
                                                 ))
                                             ) : (

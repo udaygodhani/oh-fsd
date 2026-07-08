@@ -74,9 +74,13 @@ const All = () => {
                   className={`flex items-center justify-between p-4 rounded-2xl cursor-pointer transition-all hover:bg-[#252040] ${selectedCoin === coin.symbol ? 'bg-[#2A2450] ring-1 ring-purple-500' : ''}`}
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-9 h-9 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center font-bold text-sm">
-                      {coin.symbol.slice(0, 1)}
-                    </div>
+                    {coin.image ? (
+                      <img src={coin.image} alt={coin.name} className="w-9 h-9 rounded-full object-cover" />
+                    ) : (
+                      <div className="w-9 h-9 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center font-bold text-sm">
+                        {coin.symbol.slice(0, 1)}
+                      </div>
+                    )}
                     <div>
                       <p className="font-semibold">{coin.name}</p>
                       <p className="text-xs text-gray-500">{coin.symbol}</p>
@@ -103,7 +107,7 @@ const All = () => {
                   <h3 className="text-2xl font-bold">{selectedCoin}</h3>
                   <p className="text-gray-400">Live Chart</p>
                 </div>
-                <button className="text-purple-400 hover:text-white flex items-center gap-2">
+                 <button className="text-purple-400 hover:text-white flex items-center gap-2">
                   <FiStar /> Add to Watchlist
                 </button>
               </div>
