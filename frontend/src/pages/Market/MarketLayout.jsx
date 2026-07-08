@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 import { FiBarChart2, FiClock, FiGlobe, FiTrendingUp } from 'react-icons/fi';
 
 const MarketLayout = () => {
@@ -73,21 +74,15 @@ const MarketLayout = () => {
               <FiGlobe /> Web3
             </NavLink>
           </nav>
-
-          <div className="mt-12 pt-8 border-t border-gray-700">
-            <p className="text-xs uppercase text-gray-500 mb-3">Resources</p>
-            <div className="text-sm text-gray-400 space-y-2">
-              <p className="hover:text-white cursor-pointer">Market Stats</p>
-              <p className="hover:text-white cursor-pointer">Trading Fees</p>
-              <p className="hover:text-white cursor-pointer">API Docs</p>
-            </div>
-          </div>
         </div>
 
         {/* Main Content Area */}
         {/* Added 'lg:ml-64' to offset the fixed sidebar (which has 'w-64') so content doesn't get hidden behind it */}
-        <div className="flex-1 lg:ml-64 p-4 lg:p-8">
-          <Outlet />
+        <div className="flex-1 lg:ml-64 p-4 lg:p-8 flex flex-col justify-between min-h-[calc(100vh-60px)]">
+          <div className="flex-1">
+            <Outlet />
+          </div>
+          <Footer />
         </div>
       </div>
     </div>

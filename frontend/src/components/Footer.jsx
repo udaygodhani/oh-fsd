@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   FiGithub,
   FiTwitter,
@@ -20,20 +21,18 @@ const Footer = () => {
 
             <div className="flex items-center gap-3">
 
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-cyan-400 to-purple-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg shadow-purple-500/40">
-                T
-              </div>
+              <img src="/project-logo.png" className="w-13 h-13" alt="" />
 
               <h1 className="text-3xl font-bold text-white">
-                threada
+                Crypto Groww
               </h1>
 
             </div>
 
             <p className="text-gray-400 mt-6 leading-7">
-              A modern community platform where developers,
-              designers and creators connect, share knowledge,
-              and grow together.
+              A premium cryptocurrency portal designed for tracking,
+              analyzing, and learning about digital assets,
+              helping you grow your trading knowledge.
             </p>
 
           </div>
@@ -48,64 +47,64 @@ const Footer = () => {
             <ul className="space-y-3">
 
               <li>
-                <a href="#" className="text-gray-400 hover:text-purple-400 transition">
+                <Link to="/" className="text-gray-400 hover:text-purple-400 transition">
                   Home
-                </a>
+                </Link>
               </li>
 
               <li>
-                <a href="#" className="text-gray-400 hover:text-purple-400 transition">
-                  Discussions
-                </a>
+                <Link to="/market/all" className="text-gray-400 hover:text-purple-400 transition">
+                  All Markets
+                </Link>
               </li>
 
               <li>
-                <a href="#" className="text-gray-400 hover:text-purple-400 transition">
-                  Communities
-                </a>
+                <Link to="/market/web3" className="text-gray-400 hover:text-purple-400 transition">
+                  Web3 Universe
+                </Link>
               </li>
 
               <li>
-                <a href="#" className="text-gray-400 hover:text-purple-400 transition">
-                  About
-                </a>
+                <Link to="/products/services" className="text-gray-400 hover:text-purple-400 transition">
+                  Services
+                </Link>
               </li>
 
             </ul>
 
           </div>
 
-          {/* Community */}
+          {/* Learn & Grow Tools */}
           <div>
 
             <h2 className="text-white text-xl font-semibold mb-5">
-              Community
+              Learn & Grow
             </h2>
 
             <ul className="space-y-3">
 
               <li>
-                <a href="#" className="text-gray-400 hover:text-purple-400 transition">
-                  Help Center
-                </a>
+                <Link to="/more/cryptoheatmap" className="text-gray-400 hover:text-purple-400 transition">
+                  Crypto Heatmap
+                </Link>
               </li>
 
               <li>
-                <a href="#" className="text-gray-400 hover:text-purple-400 transition">
-                  Privacy Policy
-                </a>
+                <Link to="/more/priceprediction" className="text-gray-400 hover:text-purple-400 transition">
+                  Price Prediction
+                </Link>
               </li>
 
               <li>
-                <a href="#" className="text-gray-400 hover:text-purple-400 transition">
-                  Terms & Conditions
-                </a>
+                <Link to="/more/cryptocalculator" className="text-gray-400 hover:text-purple-400 transition">
+                  Crypto Calculator
+                </Link>
               </li>
 
               <li>
-                <a href="#" className="text-gray-400 hover:text-purple-400 transition">
-                  Contact
-                </a>
+                <Link to="/more/curencyconverter" className="text-gray-400 hover:text-purple-400 transition">
+                  Currency Converter
+                </Link>
               </li>
 
             </ul>
@@ -155,7 +154,7 @@ const Footer = () => {
 
               <FiMail className="text-purple-400" />
 
-              support@threada.com
+              support@cryptogrow.com
 
             </div>
 
@@ -168,7 +167,7 @@ const Footer = () => {
         <div className="border-t border-purple-500/20 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
 
           <p className="text-gray-500 text-sm">
-            © {new Date().getFullYear()} Threada. All rights reserved.
+            © {new Date().getFullYear()} Crypto Groww. All rights reserved.
           </p>
 
           <p className="text-gray-500 text-sm">
