@@ -25,6 +25,7 @@ import Explore from './pages/Market/Web3/Explore'
 import Gaming from './pages/Market/Web3/Gaming'
 import Nft from './pages/Market/Web3/Nft'
 import Defi from './pages/Market/Web3/Defi'
+import Profile from './pages/Profile/Profile';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Auth />} />
+        <Route path='/profile' element={<Profile />} />
         <Route path='/market' element={<MarketLayout />}>
           <Route path='Spot' element={<Spot />} />
           <Route path='future' element={<Future />} />

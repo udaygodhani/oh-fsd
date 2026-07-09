@@ -62,18 +62,6 @@ const Sidebar = () => {
       {/* Leaderboard - Now using MongoDB + Live Prices */}
       <Leaderboard />
 
-      {/* Announcement */}
-      <div className="bg-gradient-to-r from-purple-600 to-pink-500 rounded-2xl p-6">
-        <h3 className="text-white text-xl font-bold">
-          📢 Announcement
-        </h3>
-
-        <p className="text-white/90 mt-3 leading-7">
-          Join our weekly developer meetup every Friday and
-          connect with thousands of developers around the world.
-        </p>
-      </div>
-
     </aside>
   );
 };

@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 import {
-  FiSearch,
   FiBell
 } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
@@ -21,7 +20,7 @@ const Navbar = () => {
     try {
       const response = await api.get("/api/auth/logout");
       toast.success(response.data.message);
-      localStorage.removeItem("user");
+      sessionStorage.removeItem("user");
       setUser(null);
       navigate("/login");
     } catch (error) {
@@ -157,15 +156,6 @@ const Navbar = () => {
         {/* Right Side */}
         <div className="flex items-center gap-5">
 
-          {/* Search */}
-          <div className="hidden md:flex items-center bg-[#1A1332] rounded-full px-5 py-3 border border-purple-500/30 w-[320px]">
-            <FiSearch className="text-gray-400 text-xl" />
-            <input
-              type="text"
-              placeholder="Search crypto..."
-              className="bg-transparent outline-none ml-3 w-full text-white placeholder-gray-500"
-            />
-          </div>
 
           {/* Notification */}
           <button className="w-12 h-12 rounded-full bg-[#1A1332] border border-purple-600/30 flex items-center justify-center hover:bg-purple-600 transition">
@@ -174,23 +164,46 @@ const Navbar = () => {
 
           {/* Profile */}
           {user ? (
-            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-2xl cursor-pointer">
-              <h1 className=" rounded-full bg-white flex items-center justify-center text-2xl cursor-pointer relative" onClick={() => setOpenMenu(!openMenu)}>
-                {user.name.charAt(0) + user.name.split(" ")[1].charAt(0)}
-              </h1>
-              <div onClick={() => setOpenMenu(false)} className={`min-h-screen min-w-screen pr-50 pt-22 absolute top-0 right-0 flex items-start justify-end ${openMenu ? "" : "hidden"} border`}>
-                <div className={`flex border border-white bg-white top-20 right-20 h-auto w-[30vh] p-3 rounded-2xl flex-col`}>
-                  <Link to={'/profile'} className="flex items-center justify-center gap-2 hover:bg-[#d6d6d6] p-2 rounded-2xl transition-all duration-200">
-                    <div className="w-9 h-9 rounded-full border flex items-center justify-center text-xl cursor-pointer relative">
-                      {user.name.charAt(0) + user.name.split(" ")[1].charAt(0)}
-                    </div>
-                    Profile
-                  </Link>
-                  <button type="button" className="p-2 hover:bg-red-300 hover:text-white cursor-pointer rounded-2xl flex items-center justify-center gap-2 transition-all duration-200" onClick={() => handleLogout()}>
-                    <CiLogout className="font-bold" />Logout
-                  </button>
-                </div>
-              </div>
+            <div className="relative">
+              {/* Profile Avatar Button */}
+              <button 
+                onClick={() => setOpenMenu(!openMenu)} 
+                className="w-12 h-12 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center text-sm font-bold text-white shadow-lg cursor-pointer border-none hover:scale-105 transition-transform"
+              >
+                {user.name ? (user.name.trim().split(" ").length > 1 ? (user.name.trim().split(" ")[0].charAt(0) + user.name.trim().split(" ")[1].charAt(0)).toUpperCase() : user.name.trim().slice(0, 2).toUpperCase()) : "U"}
+              </button>
+
+              {/* Dropdown Menu */}
+              {openMenu && (
+                <>
+                  {/* Backdrop to close menu */}
+                  <div 
+                    onClick={() => setOpenMenu(false)} 
+                    className="fixed inset-0 z-40 bg-transparent"
+                  />
+                  
+                  {/* Actual Dropdown */}
+                  <div className="absolute right-0 mt-3 w-56 bg-[#151026] border border-purple-500/20 rounded-2xl p-2.5 shadow-2xl z-50 flex flex-col gap-1 text-white">
+                    <Link 
+                      to={'/profile'} 
+                      onClick={() => setOpenMenu(false)}
+                      className="flex items-center gap-3 hover:bg-purple-500/10 p-3 rounded-xl transition-all text-white hover:text-white font-medium"
+                    >
+                      <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center text-xs font-bold text-white">
+                        {user.name ? (user.name.trim().split(" ").length > 1 ? (user.name.trim().split(" ")[0].charAt(0) + user.name.trim().split(" ")[1].charAt(0)).toUpperCase() : user.name.trim().slice(0, 2).toUpperCase()) : "U"}
+                      </div>
+                      Profile
+                    </Link>
+                    <button 
+                      type="button" 
+                      onClick={() => { setOpenMenu(false); handleLogout(); }}
+                      className="flex items-center gap-3 p-3 hover:bg-red-500/15 hover:text-red-400 text-gray-300 font-semibold cursor-pointer rounded-xl transition-all text-left border-none bg-transparent"
+                    >
+                      <CiLogout className="text-lg text-red-400" /> Logout
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           ) : (
             <Link to={'/login'} className="text-2xl text-white">Login</Link>

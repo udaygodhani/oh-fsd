@@ -29,7 +29,7 @@ function Auth() {
             const response = await api.post("/api/auth/login", { email, password });
             const user = response.data.user;
             setUser(user);
-            localStorage.setItem("user", JSON.stringify(user));
+            sessionStorage.setItem("user", JSON.stringify(user));
             toast.success(response.data.message)
             navigate("/")
         } catch (error) {
@@ -74,7 +74,7 @@ function Auth() {
             console.log(response)
             const user = response.data.user;
             setUser(user)
-            localStorage.setItem("user", JSON.stringify(user));
+            sessionStorage.setItem("user", JSON.stringify(user));
             toast.success(response.data.message)
             localStorage.removeItem("formtype")
             setFormType("login")

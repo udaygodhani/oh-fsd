@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/data/UserDataProvider";
 
 const Hero = () => {
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
+  
   return (
     <section className="relative overflow-hidden bg-[#0B061B] py-16">
       {/* Background Glow */}
@@ -27,14 +30,16 @@ const Hero = () => {
             and grow your knowledge in crypto trading.
           </p>
 
-          <button
-            type="button"
-            onClick={() => navigate("/login")}
-            className="mt-10 px-8 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 text-white font-semibold flex items-center gap-3 hover:scale-105 duration-300 shadow-lg shadow-purple-500/40 cursor-pointer"
-          >
-            Get Started
-            <FiArrowRight />
-          </button>
+          {!user && (
+            <button
+              type="button"
+              onClick={() => navigate("/login")}
+              className="mt-10 px-8 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 text-white font-semibold flex items-center gap-3 hover:scale-105 duration-300 shadow-lg shadow-purple-500/40 cursor-pointer"
+            >
+              Get Started
+              <FiArrowRight />
+            </button>
+          )}
         </div>
 
         {/* Right Side Card */}

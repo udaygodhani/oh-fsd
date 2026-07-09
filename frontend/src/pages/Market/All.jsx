@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import TradingViewWidget from '../../components/graph/TradingViewWidget';
 import { FiSearch, FiStar, FiTrendingUp, FiArrowUp, FiArrowDown } from 'react-icons/fi';
 import { CoinContext } from '../../context/coins/CoinContextProvider';
@@ -19,12 +20,20 @@ const All = () => {
     return matchesSearch;
   });
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      if (filteredCoins.length > 0) {
+        setSelectedCoin(filteredCoins[0].symbol);
+      }
+    }
+  };
+
   const topGainers = [...allCryptoCoins].sort((a, b) => parseFloat(b.change) - parseFloat(a.change)).slice(0, 3);
 
   return (
     <div className="min-h-screen bg-[#0B081E] text-white p-6">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-end mb-8">
+        <div className="flex justify-between items-end mb-4">
           <div>
             <h1 className="text-4xl font-bold">All Markets</h1>
             <p className="text-gray-400">Spot • Futures • Top Movers</p>
@@ -38,8 +47,43 @@ const All = () => {
               className="w-full bg-[#1A1633] border border-gray-700 pl-11 py-3 rounded-xl focus:outline-none focus:border-purple-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
           </div>
+        </div>
+
+        {/* Market Sub-Navigation (Highly visible on all screens) */}
+        <div className="flex gap-2 mb-8 border-b border-gray-800 pb-4 overflow-x-auto lg:hidden">
+          <NavLink
+            to="/market/spot"
+            className={({ isActive }) =>
+              `px-5 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all ${
+                isActive ? 'bg-purple-600 text-white' : 'bg-[#1F1A38] text-gray-400 hover:text-white'
+              }`
+            }
+          >
+            Spot
+          </NavLink>
+          <NavLink
+            to="/market/future"
+            className={({ isActive }) =>
+              `px-5 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all ${
+                isActive ? 'bg-purple-600 text-white' : 'bg-[#1F1A38] text-gray-400 hover:text-white'
+              }`
+            }
+          >
+            Futures
+          </NavLink>
+          <NavLink
+            to="/market/all"
+            className={({ isActive }) =>
+              `px-5 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all ${
+                isActive ? 'bg-purple-600 text-white' : 'bg-[#1F1A38] text-gray-400 hover:text-white'
+              }`
+            }
+          >
+            All Markets
+          </NavLink>
         </div>
 
         {/* Tabs */}
