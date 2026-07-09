@@ -3,7 +3,7 @@ export const UserContext = createContext()
 function UserDataProvider(props) {
     const [user, setUser] = useState(null)
     useEffect(()=>{
-      const defaultUser = localStorage.getItem("user");
+      const defaultUser = sessionStorage.getItem("user");
       if(!defaultUser){
         return
       }

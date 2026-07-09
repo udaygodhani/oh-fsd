@@ -73,8 +73,8 @@ const CryptoHeatmap = () => {
               key={coin.id}
               className={`p-5 rounded-2xl transition-all hover:scale-105 border border-white/10 ${getColorIntensity(change)}/10`}
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-[40px] h-[40px] rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center overflow-hidden">
+              <div className="flex items-center gap-3 mb-4 min-w-0">
+                <div className="w-[40px] h-[40px] shrink-0 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center overflow-hidden">
                   <img 
                     src={coin.image} 
                     className="w-full h-full object-cover" 
@@ -83,9 +83,9 @@ const CryptoHeatmap = () => {
                   />
                 </div>
 
-                <div>
-                  <h3 className="font-bold text-lg">{coin.symbol?.toUpperCase()}</h3>
-                  <p className="text-sm text-gray-400 truncate">{coin.name}</p>
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-bold text-lg truncate" title={coin.symbol?.toUpperCase()}>{coin.symbol?.toUpperCase()}</h3>
+                  <p className="text-sm text-gray-400 truncate" title={coin.name}>{coin.name}</p>
                 </div>
               </div>
 
